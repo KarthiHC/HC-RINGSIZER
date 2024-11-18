@@ -3,6 +3,7 @@ function initialize() {
     if (!app_url) {
         app_url = "https://karthihc.github.io/HC-RINGSIZER/ring-sizer";
     }
+
     let backdrop = null;
     let wrapper = null;
     let iframe = null;
@@ -58,22 +59,23 @@ function initialize() {
     iframe.style.display = "block";
     iframe.style.margin = "auto";
 
-    // Ensure open_iframe function exists and attach the event listener
+    // Attach the open_iframe function
     document.getElementById("ring-sizer")?.addEventListener("click", open_iframe, false);
 
     backdrop.appendChild(wrapper);
     wrapper.appendChild(iframe);
     body.appendChild(backdrop);
 
+    // Define open_iframe function
     function open_iframe() {
         iframe.src = ring_sizer_url;
         backdrop.style.display = "block";
     }
 
-    // Define close_iframe function
+    // Define close_iframe function in global context
     window.close_iframe = function() {
-        iframe.src = "";
-        backdrop.style.display = "none";
+        iframe.src = ""; // Clear the iframe source
+        backdrop.style.display = "none"; // Hide the backdrop
     };
 }
 
@@ -91,12 +93,7 @@ eventer(messageEvent, function (e) {
     var origin_url = e.origin.replace('http://', '').replace('https://', '').split(/[/?#]/)[0];
 
     if (origin_url == app_url && e.data == "close_iframe") {
-        var body = document.getElementsByTagName("body")[0];
-        var iframe = document.getElementById("ifrm_ring_sizer");
-        var wrapper = document.getElementById("wrapper_ring_sizer");
-        var backdrop = document.getElementById("backdrop_ring_sizer");
-        
-        // Ensure the close_iframe function is triggered
+        // Call the global close_iframe function
         window.close_iframe();
     }
 }, false);
