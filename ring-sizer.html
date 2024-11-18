@@ -1,0 +1,2796 @@
+<html lang="en" data-arp="">
+
+<head>
+    <script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script>
+    <script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script>
+    <script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ring Size Calculator</title>
+    <link rel="stylesheet" href="https://ringsizer.hautecarat.com/css/bootstrap.min.css">
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.1/css/all.css'>
+    <link rel="stylesheet" href="./style.css">
+    <meta property="og:title" content="My Ring Size" />
+    <meta property="og:description" content="I Found The Perfect Fit, Here Is My Hautecarat Ring Size!" />
+    <meta property="og:image" content="URL_of_your_image_here" />
+
+    <style>
+        #backdrop_ring_sizer, #wrapper_ring_sizer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 9999;
+        }
+        #wrapper_ring_sizer {
+            max-width: 95%;
+            max-height: 95%;
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0px 0px 10px 5px rgba(34, 34, 34, 0.4);
+        }
+        #ifrm_ring_sizer {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        #last_calibration_page .main-wrapper{
+            padding-top: 40px;
+        }
+        .row-col-first .main-wrapper{
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+    </style>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+
+        /* @import url('https://fonts.googleapis.com/css2?family=Bellefair&family=Red+Hat+Text:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap'); */
+        /* Start Common CSS  */
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            font-family: "Montserrat", sans-serif;
+            position: relative;
+            margin: 0;
+            color: #000000;
+            background: #f9f9f9;
+        }
+
+        @media (min-width: 1000px){
+            #card_calibration_page .first-col-wrapper .main-wrapper{
+                display: block;
+                width: 100%;
+                background: url(column-image-1.png) no-repeat center center / cover;
+                position: relative;
+                height: 100%;
+            }
+            #card_calibration_page .row.justify-content-center, #ring_size_calculator_page .row.justify-content-center {
+                height: 100% !important;
+            }
+            #ring_size_calculator_page .first-col-wrapper .main-wrapper{
+                display: block;
+                width: 100%;
+                background: url(column-image-2.png) no-repeat center center / cover;
+                position: relative;
+                height: 100%;
+            }
+        }
+
+        .btn-close {
+            position: absolute;
+            z-index: 1;
+            right: 15px;
+            top: 30px;
+        }
+
+        /* End Common CSS  */
+        /* Start landing page */
+
+        #init_landing_page .company {
+            padding-top: 40px;
+        }
+
+        #init_landing_page .heading {
+            font-size: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            line-height: 60px;
+            width: 300px;
+        }
+
+        #init_landing_page .heading .thin {
+            font-weight: 400
+        }
+
+        #init_landing_page .subheading {
+            font-size: 16px;
+            color: #999999;
+            margin: 10px 0 20px 0;
+        }
+
+        #init_landing_page .ring-image {
+            max-width: 220px;
+            margin: 45px 0;
+            float: right;
+        }
+
+        #init_landing_page .app-link {
+            background-color: #ffffff;
+            text-align: center;
+            cursor: pointer;
+            padding: 20px 20px;
+            border-radius: 3px;
+            display: block;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        #init_landing_page .app-link:hover {
+            box-shadow: 0 0 18px 0 #88888855;
+        }
+
+        #init_landing_page .app-link .icon {
+            width: 70px;
+            height: 100px;
+        }
+
+        #init_landing_page .app-link .text {
+            font-size: 16px;
+            margin: auto;
+        }
+
+        #init_landing_page .app-link .sub-text {
+            font-size: 13px;
+            margin-top: 5px;
+            color: #888888;
+        }
+
+        #init_landing_page .actions-wrapper {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        #init_landing_page .btn-change-country {
+            font-size: 12px;
+            font-weight: 400;
+            text-decoration: none;
+            color: #000000;
+        }
+
+        #init_landing_page .btn-change-country:hover {
+            text-decoration: underline;
+        }
+
+        /* End landing page */
+        /* Start country change page */
+        #country_change_page {}
+
+        #country_change_page .heading {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+
+        #country_change_page .country-list {
+            text-align: center;
+        }
+
+        #country_change_page .country-list-item {
+            background-color: #ffffff;
+            margin: 5px;
+            text-align: left;
+            font-size: 16px;
+            min-width: 200px;
+            cursor: pointer;
+            padding: 20px 20px;
+            border-radius: 3px;
+            display: inline-block;
+            border: solid 1px #efefef;
+        }
+
+        #country_change_page .country-list-item:hover {
+            border: solid 1px #000000;
+        }
+
+        #country_change_page .country-list-item img {
+            display: inline-block;
+            float: left;
+            width: 25px;
+            height: 25px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        #country_change_page .button-wrapper {
+            text-align: center;
+        }
+
+        .theme-btn.black-btn {
+            color: #ffffff;
+            background: #000000;
+            border-radius: 5px;
+            font-size: 14px;
+            border: solid 1px #000000;
+            padding: 8px 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            outline: none;
+        }
+
+        #card_calibration_page .theme-btn.black-btn {
+            padding: 18px 20px !important;
+            line-height: 12px !important;
+        }
+
+
+        .theme-btn.black-btn:hover {
+            background: #ffffff;
+            color: #1A2D44;
+            border-color: #000000;
+        }
+
+        .width-50 {
+            width: 50%;
+        }
+
+        .theme-btn.white-btn {
+            color: #000000;
+            background: #ffffff;
+            border-radius: 5px;
+            font-size: 14px;
+            border: solid 1px #000000;
+            padding: 8px 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            outline: none;
+        }
+
+        .theme-btn.white-btn:hover {
+            background: #000000;
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+
+        .theme-btn.full-width-btn {
+            width: 100%;
+        }
+
+        #init_calibration_page {
+            display: block;
+            width: 100%;
+            background: url('ring-image.png') no-repeat center center/cover;
+            position: relative;
+            background-size: 100% 100%;
+        }
+
+        .row-col {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* End country change page */
+        /* Start init calibration page */
+        #init_calibration_page .company {
+            margin-top: 10px;
+        }
+
+        #init_calibration_page .company-logo {
+            padding: 5px;
+        }
+
+        .company-logo img {
+            height: 22px;
+            width: 215px;
+        }
+
+        #init_calibration_page .heading {
+            font-family: "Montserrat";
+            font-size: 50px;
+            text-transform: uppercase;
+            line-height: 60px;
+            width: 300px;
+            color: #1A2D44;
+        }
+
+        #init_calibration_page .heading .thin {}
+
+        #init_calibration_page .subheading {
+            font-size: 15px;
+            color: #000000;
+            margin: 10px 0 20px 0;
+            line-height: normal;
+        }
+
+        #init_calibration_page .ring-image {
+            max-width: 220px;
+            margin: 45px auto;
+            display: block;
+        }
+
+        #init_calibration_page .radio-button-section .card {
+            border: 0;
+            margin: 0;
+            height: 100%;
+        }
+
+        #init_calibration_page .radio-button-section .card .radio-btn~.plan-details {
+            border: 1px solid #000000;
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 20px 20px 80px;
+            transition: border-color 0.2s ease-out;
+        }
+
+        #init_calibration_page .radio-button-section .card .radio-btn {
+            font-size: inherit;
+            border: 1px solid #707070;
+            position: absolute;
+            left: calc(2em + 2px);
+            top: 50%;
+            margin-top: -10px;
+            border-radius: 0px;
+            width: 20px;
+            height: 20px;
+            -webkit-appearance: none;
+        }
+
+        #init_calibration_page .radio-button-section .card .radio-btn:checked {
+            background: #000000;
+            border: solid 1px #000000;
+        }
+
+        #init_calibration_page .radio-button-section .card .radio-btn:checked:after {
+            border: 2px solid #fff;
+            border-top: 0;
+            border-left: 0;
+            content: "";
+            display: block;
+            height: 0.75rem;
+            left: 4px;
+            position: absolute;
+            top: 8px;
+            transform: rotate(45deg) translate(-50%, -50%);
+            width: 0.375rem;
+        }
+
+        #init_calibration_page .radio-button-section .card .plan-details .text {
+            display: block;
+            font-size: 14px;
+            text-align: left;
+            font-weight: 500;
+            color: #000000;
+        }
+
+        #init_calibration_page .radio-button-section .card .plan-details .caption {
+            font-weight: 600;
+        }
+
+        #init_calibration_page .radio-button-section .card .plan-details strong {
+            font-weight: 600;
+        }
+
+        #init_calibration_page .radio-button-section .separation-box {
+            padding: 5px;
+            display: block;
+            font-size: 18px;
+            font-weight: 500;
+            color: #000000;
+            text-align: center;
+        }
+
+        #init_calibration_page .button-wrapper {
+            text-align: center;
+        }
+
+        #init_calibration_page .printable-ring-sizer {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        #init_calibration_page .printable-ring-sizer a {
+            color: inherit;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 500px) {
+            #init_calibration_page .radio-button-section .card .radio-btn {
+                left: calc(1em + 2px);
+            }
+
+            #init_calibration_page .radio-button-section .card .radio-btn~.plan-details {
+                padding: 20px 20px 20px 50px;
+            }
+        }
+
+        @media (min-width: 767px) {
+            #init_calibration_page .radio-button-section .card.ruler-card .plan-details {
+                padding: 40px 20px 40px 80px;
+            }
+
+            #init_calibration_page .radio-button-section .separation-box {
+                margin-top: 60px;
+            }
+        }
+
+        /* End init calibration page */
+        /* Start card calibration page */
+        #card_calibration_page .heading {
+            text-align: center;
+            font-family: "Montserrat";
+            color: #1A2D44;
+            font-size: 20px;
+            text-transform: uppercase;
+            margin-top: 15px;
+        }
+
+        #card_calibration_page .sub-heading {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 500;
+            margin: 10px 0;
+            line-height: normal;
+            font-family: lora;
+        }
+
+        #card_calibration_page .sub-heading .info-icon {
+            width: 15px;
+            margin-top: -2px;
+            cursor: pointer;
+        }
+
+        #card_calibration_page .card-image-wrapper {
+            margin-top: 10px;
+            overflow: hidden;
+            height: 300px;
+            background-image: url("debit-card.png");
+            background-repeat: no-repeat;
+            background-position: center 2px;
+        }
+
+        #card_calibration_page .card-image-wrapper .lines {
+            border-top: 1px solid #5e7173;
+            border-bottom: dashed 1px #5e7173;
+            -ms-touch-action: none;
+            touch-action: none;
+        }
+
+        #card_calibration_page .range-progress-bar {
+            margin: 10px auto;
+            max-width: 540px;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        #card_calibration_page .range-progress-bar::selection {
+            background: none;
+        }
+
+        #card_calibration_page .range-progress-bar .step-button {
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            background: #000000;
+            color: #ffffff;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 24px;
+            font-size: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #card_calibration_page .range-progress-bar .step-button::selection {
+            background: none;
+        }
+
+        #card_calibration_page .range-progress-bar .line {
+            display: inline-block;
+            width: 65%;
+            vertical-align: middle;
+            height: 50px;
+        }
+
+        #card_calibration_page .progress {
+            background: #707070;
+            border: 0;
+            height: 2px;
+            width: 90%;
+            outline: none;
+            margin-top: 25px;
+            margin-left: 15px;
+            margin-right: 15px;
+            overflow: initial;
+            z-index: 0;
+            transition: background 450ms ease-in;
+            -webkit-appearance: none;
+        }
+
+        #card_calibration_page .progress::-webkit-slider-thumb {
+            width: 30px;
+            height: 30px;
+            z-index: 99999;
+            border-radius: 50%;
+            -webkit-appearance: none;
+            cursor: ew-resize;
+            background: #ffff;
+            box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+        }
+
+        #card_calibration_page .button-wrapper {
+            text-align: center;
+        }
+
+        /* End card calibration page */
+        /* Start scale calibration page */
+        #scale_calibration_page .main-wrapper {
+            overflow: hidden;
+        }
+
+        #scale_calibration_page .heading {
+            text-align: center;
+            font-family: "Montserrat";
+            color: #1A2D44;
+            font-size: 20px;
+            text-transform: uppercase;
+            margin-top: 15px;
+        }
+
+        #scale_calibration_page .sub-heading {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            margin: 10px 0;
+            line-height: normal;
+        }
+
+        #scale_calibration_page .sub-heading .info-icon {
+            width: 15px;
+            margin-top: -2px;
+            cursor: pointer;
+        }
+
+        #scale_calibration_page .unit-tabs {
+            display: flex;
+            justify-content: center;
+            cursor: default;
+        }
+
+        #scale_calibration_page .unit-tabs .tab {
+            display: inline-block;
+            width: 100px;
+            padding: 5px 10px;
+            text-align: center;
+            border: solid 1px #000000;
+        }
+
+        .ring-size-country-text {
+            cursor: pointer;
+        }
+
+        #scale_calibration_page .unit-tabs .tab:first-child {
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        #scale_calibration_page .unit-tabs .tab:last-child {
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+
+        #scale_calibration_page .unit-tabs .tab.active {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        #scale_calibration_page .mm-scale-image-wrapper {
+            margin-top: 10px;
+            overflow: hidden;
+            height: 150px;
+            background-image: url("https://ringsizer.hautecarat.com/images/app/mm-scale.svg");
+            background-repeat: no-repeat;
+            background-position: bottom left;
+        }
+
+        #scale_calibration_page .inch-scale-image-wrapper {
+            margin-top: 10px;
+            overflow: hidden;
+            height: 150px;
+            background-image: url("https://ringsizer.hautecarat.com/images/app/inch-scale.svg");
+            background-repeat: no-repeat;
+            background-position: bottom left;
+        }
+
+        #scale_calibration_page .scale-placeholder-wrapper {
+            background: #efefef;
+            height: 150px;
+            margin: 0 0 20px 0;
+            font-size: 40px;
+            font-weight: 500;
+            line-height: 145px;
+            border: solid 1px #cccccc;
+            color: #999999;
+            text-shadow: 1px 1px 1px #ffffff;
+            position: relative;
+            white-space: nowrap;
+            left: 600;
+            animation-duration: 1.5s;
+            animation-name: slidein;
+            -ms-touch-action: none;
+            touch-action: none;
+        }
+
+        #scale_calibration_page .range-progress-bar {
+            margin: 10px auto;
+            max-width: 500px;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        #scale_calibration_page .range-progress-bar::selection {
+            background: none;
+        }
+
+        #scale_calibration_page .range-progress-bar .step-button {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            background: #000000;
+            color: #ffffff;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 50px;
+            font-size: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #scale_calibration_page .range-progress-bar .step-button::selection {
+            background: none;
+        }
+
+        #scale_calibration_page .range-progress-bar .line {
+            display: inline-block;
+            width: 65%;
+            vertical-align: middle;
+            height: 50px;
+        }
+
+        #scale_calibration_page .progress {
+            background: #000000;
+            border: 0;
+            height: 1px;
+            width: 100%;
+            outline: none;
+            margin-top: 25px;
+            overflow: initial;
+            z-index: 0;
+            transition: background 450ms ease-in;
+            -webkit-appearance: none;
+        }
+
+        #scale_calibration_page .progress::-webkit-slider-thumb {
+            width: 30px;
+            height: 30px;
+            z-index: 99999;
+            border-radius: 50%;
+            -webkit-appearance: none;
+            cursor: ew-resize;
+            background: #444444;
+        }
+
+        #scale_calibration_page .theme-btn {
+            color: #ffffff;
+            background: #000000;
+            border-radius: 5px;
+            border: solid 1px #000000;
+            font-size: 14px;
+            padding: 8px 20px;
+            text-transform: uppercase;
+            margin: 5px auto;
+            outline: none;
+        }
+
+
+        @keyframes slidein {
+            from {
+                left: 600px;
+            }
+
+            to {
+                left: 0;
+            }
+        }
+
+        @media (max-width: 500px) {
+            #scale_calibration_page .scale-placeholder-wrapper {
+                font-size: 20px;
+            }
+        }
+
+        /* End scale calibration page */
+        /* Start Measure Your Finger page */
+        #measure_your_finger_page .heading {
+            text-align: center;
+            font-size: 30px;
+            font-weight: 500;
+            margin-top: 140px;
+        }
+
+        #measure_your_finger_page .button-wrapper {
+            text-align: center;
+        }
+
+        #measure_your_finger_page .theme-btn {
+            color: #000000;
+            background: #ffffff;
+            border-radius: 3px;
+            font-size: 14px;
+            border: solid 1px #000000;
+            padding: 7px 15px;
+            text-transform: uppercase;
+            margin: 15px auto;
+            outline: none;
+        }
+
+        #measure_your_finger_page .theme-btn:hover {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        /* End Measure Your Finger page */
+        /* Start Convert from Other Units page */
+        #convert_from_other_units_page .heading {
+            text-align: center;
+            font-size: 30px;
+            font-weight: 500;
+            margin-top: 140px;
+        }
+
+        #convert_from_other_units_page .button-wrapper {
+            text-align: center;
+        }
+
+        /* End Convert from Other Units page */
+        /* Start ring size calculator_page */
+        #ring_size_calculator_page .heading {
+            text-align: center;
+            font-family: "Montserrat";
+            color: #1A2D44;
+            font-size: 20px;
+            text-transform: uppercase;
+            margin-top: 15px;
+        }
+
+        #ring_size_calculator_page .sub-heading {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 500;
+            margin: 10px 0;
+            line-height: normal;
+            font-family: lora;
+        }
+
+        #ring_size_calculator_page .sub-heading .info-icon {
+            width: 15px;
+            margin-top: -2px;
+            cursor: pointer;
+        }
+
+        #ring_size_calculator_page .ring-sizer-wrapper {
+            height: 180px;
+            width: 300px;
+            margin: auto;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        #ring_size_calculator_page .ring-sizer-wrapper .ring-sizer {
+            position: relative;
+            border-radius: 50%;
+            background: url("ring-arrows.png") center center no-repeat;
+            background-size: cover;
+            height: 80px;
+            width: 80px;
+            margin: 0 auto;
+            text-align: center;
+            display: block;
+            max-width: 180px;
+            max-height: 180px;
+        }
+
+        #ring_size_calculator_page .ring-sizer-wrapper .ring-sizer .left-line {
+            position: absolute;
+            width: 1px;
+            border-left: dashed 1px #5e7173;
+            height: 500px;
+            top: -200px;
+            left: -2px;
+        }
+
+        #ring_size_calculator_page .ring-sizer-wrapper .ring-sizer .top-line {
+            position: absolute;
+            height: 1px;
+            border-top: dashed 1px #5e7173;
+            width: 500px;
+            left: -200px;
+            top: -2px;
+        }
+
+        #ring_size_calculator_page .ring-sizer-wrapper .ring-sizer .right-line {
+            position: absolute;
+            width: 1px;
+            border-right: dashed 1px #5e7173;
+            height: 500px;
+            top: -200px;
+            right: -2px;
+        }
+
+        #ring_size_calculator_page .ring-sizer-wrapper .ring-sizer .bottom-line {
+            position: absolute;
+            height: 1px;
+            border-bottom: dashed 1px #5e7173;
+            width: 500px;
+            left: -200px;
+            bottom: -2px;
+        }
+
+        #ring_size_calculator_page .message {
+            font-size: 12px;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        #ring_size_calculator_page .range-progress-bar {
+            margin: 20px auto;
+            max-width: 500px;
+            white-space: nowrap;
+        }
+
+        #ring_size_calculator_page .range-progress-bar::selection {
+            background: none;
+        }
+
+        #ring_size_calculator_page .range-progress-bar .step-button {
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            background: #000000;
+            color: #ffffff;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 25px;
+            font-weight: 300;
+            font-size: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #ring_size_calculator_page .range-progress-bar .step-button::selection {
+            background: none;
+        }
+
+        #ring_size_calculator_page .range-progress-bar .line {
+            display: inline-block;
+            width: 65%;
+            vertical-align: middle;
+            height: 50px;
+        }
+
+        #ring_size_calculator_page .progress {
+            background: #707070;
+            border: 0;
+            height: 2px;
+            width: 90%;
+            outline: none;
+            margin-top: 25px;
+            margin-left: 15px;
+            margin-right: 15px;
+            overflow: initial;
+            z-index: 0;
+            transition: background 450ms ease-in;
+            -webkit-appearance: none;
+        }
+
+        #ring_size_calculator_page .progress::-webkit-slider-thumb {
+            width: 30px;
+            height: 30px;
+            z-index: 99999;
+            border-radius: 50%;
+            -webkit-appearance: none;
+            cursor: ew-resize;
+            background: #ffff;
+            box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+        }
+
+        #ring_size_calculator_page .size-wrapper {
+            margin-top: 10px;
+        }
+
+        #ring_size_calculator_page .size-wrapper p {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        #ring_size_calculator_page .disclaimer {
+            font-size: 12px;
+            padding: 10px;
+            margin: 20px auto 10px auto;
+            border: dashed 1px #000;
+            max-width: 400px;
+            background: #dedede;
+        }
+
+        #ring_size_calculator_page .disclaimer strong {
+            font-weight: 600;
+        }
+
+        #ring_size_calculator_page .ring-measurement-wrapper {
+            width: 250px;
+            margin: auto;
+        }
+
+        #ring_size_calculator_page .ring-measurement-wrapper .us-ring-size-caption {
+            display: inline-block;
+            width: 120px;
+        }
+
+        #ring_size_calculator_page .ring-measurement-wrapper .us-ring-size-caption .country-flag {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            vertical-align: middle;
+            border-radius: 50%;
+        }
+
+        #ring_size_calculator_page .ring-measurement-wrapper .us-ring-size-caption .country-caption {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        #ring_size_calculator_page .ring-measurement-wrapper .us-ring-size-caption .us-ring-size {
+            border: solid 1px #000000;
+            display: inline-block;
+            padding: 3px 10px;
+            width: 60px;
+            font-weight: 500;
+        }
+
+        #ring_size_calculator_page .ring-measurement-wrapper .ring-size-caption {
+            display: inline-block;
+            width: 120px;
+        }
+
+        #ring_size_calculator_page .ring-measurement-wrapper .ring-size-caption .country-flag {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            vertical-align: middle;
+            border-radius: 50%;
+        }
+
+        #ring_size_calculator_page .ring-measurement-wrapper .ring-size-caption .country-caption {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        #ring_size_calculator_page .ring-measurement-wrapper .ring-size-caption .ring-size {
+            border: solid 1px #000000;
+            border-radius: 5px;
+            display: inline-block;
+            padding: 3px 10px;
+            width: 60px;
+            font-weight: 500;
+        }
+
+        #ring_size_calculator_page .actions-wrapper {
+            margin-top: 20px;
+        }
+
+        #ring_size_calculator_page .btn-recalibrate {
+            font-size: 12px;
+            font-weight: 400;
+            text-decoration: none;
+            color: #000000;
+        }
+
+        #ring_size_calculator_page .btn-recalibrate:hover {
+            text-decoration: underline;
+            color: #000000;
+        }
+
+        #ring_size_calculator_page .btn-change-country {
+            font-size: 12px;
+            font-weight: 400;
+            text-decoration: none;
+            color: #000000;
+        }
+
+        #ring_size_calculator_page .btn-change-country:hover {
+            text-decoration: underline;
+            color: #000000;
+        }
+
+        .video-guide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            padding: 50px 0;
+            text-align: center;
+            margin: auto;
+            z-index: 1;
+            background: #00000044;
+        }
+
+        .video-guide .video {
+            max-width: 440px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 4px 1px #919191;
+            margin: auto;
+        }
+
+        .video-guide .video img {
+            max-width: 100%;
+        }
+
+        .video-guide .video video {
+            max-width: 100%;
+        }
+
+        .video-guide .video .btn-gotit {
+            display: inline-block;
+            padding: 5px 10px;
+            border: solid 1px #000000;
+            border-radius: 3px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 15px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .video-guide .video .btn-gotit:hover {
+            color: #ffffff;
+            background: #000000;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+        }
+
+        /* .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        } */
+
+        .main-wrapper p,
+        .main-wrapper h2 {
+            margin-bottom: 0;
+        }
+        #card_calibration_page .container, #ring_size_calculator_page .container{
+            max-width: 100% !important;
+        }
+
+        .main-wrapper p:first-child {
+            font-size: 12px;
+        }
+
+        .main-wrapper p:nth-of-type(2) {
+            font-size: 16px;
+        }
+
+
+        .company-logo {
+            margin: 0 auto;
+        }
+
+        .btn-close {
+            cursor: pointer;
+        }
+
+        #init_calibration_page a {
+            color: black;
+            text-decoration: underline;
+        }
+
+        .ring-sizer-counter {
+            font-size: 12px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 5px 7px;
+            background: #EFE9E0;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        .ring-sizer-buttons-main {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            gap: 10px;
+            font-size: 17px;
+            align-items: center;
+        }
+        #share_calibration_page .ring-sizer-buttons-main {
+            margin: 20px 0 !important;
+        }
+
+        #last_calibration_page .ring-sizer-buttons-main {
+            padding: 0px 35%;
+
+        }
+
+        #last_calibration_page .theme-btn.black-btn:hover svg path {
+            stroke: black !important;
+        }
+
+        .ring-sizer-button-back {
+            border: 1px solid black;
+            border-radius: 3px;
+            padding: 6px 30px;
+            background: white;
+        }
+
+        .ring-sizer-button-done {
+            width: 100%;
+            border: 1px solid black !important;
+            background: black;
+            color: white;
+            border-radius: 3px;
+        }
+
+        .main-wrapper-text-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ring-image-last {
+            width: 210px;
+        }
+
+        .last_calibration_page_img_counter {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        #last_calibration_page .main-wrapper-text-wrapper .text-wrapper-subheading,
+        #last_calibration_page .main-wrapper-text-wrapper p,
+        #share_calibration_page .main-wrapper-text-wrapper .text-wrapper-subheading,
+        #share_calibration_page .main-wrapper-text-wrapper p {
+            text-align: center;
+        }
+
+        .last_calibration_page_img {
+            text-align: center;
+        }
+
+        .last_calibration_page_img_counter {
+            position: relative;
+            display: inline-block;
+        }
+
+        #share_calibration_page .main-wrapper-text-wrapper .text-wrapper-subheading,
+        #share_calibration_page .main-wrapper-text-wrapper .text-wrapper-subheading {
+            font-family: lora;
+            font-size: 22px;
+        }
+
+        .last_calibration_page_img_counter .ring-sizer-counter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px !important;
+            padding: 8px 15px !important;
+        }
+
+        .black-btn {
+            color: #ffffff;
+            background: #000000;
+            border-radius: 5px;
+            font-size: 14px;
+            border: solid 1px #000000;
+            padding: 8px 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            outline: none;
+        }
+
+        .black-btn:hover {
+            background: #ffffff;
+            color: #1A2D44;
+            border-color: #000000;
+        }
+
+        /*-------------------*/
+
+        /*SOCIAL MEDIA ICONS*/
+        .social-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .social-button {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            outline: none;
+            width: 50px;
+            height: 50px;
+            text-decoration: none;
+            border-radius: 100%;
+            background: #e7e7e7;
+            text-align: center;
+        }
+        #share_calibration_page .main-wrapper{
+            margin-top: 10px;
+        }
+
+        .social-button::after {
+            content: "";
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            display: block;
+            width: 0;
+            height: 0;
+            border-radius: 100%;
+            transition: 0.3s;
+        }
+
+        .social-button:focus,
+        .social-button:hover {
+            color: #fff;
+        }
+
+        .social-button:focus::after,
+        .social-button:hover::after {
+            width: calc(100% + 2px);
+            height: calc(100% + 2px);
+            margin-left: calc(-50% - 1px);
+        }
+
+        .social-button i,
+        .social-button svg {
+            position: relative;
+            z-index: 1;
+            transition: 0.3s;
+        }
+
+        .social-button i {
+            font-size: 25.6px;
+        }
+
+        .social-button svg {
+            height: 40%;
+            width: 40%;
+        }
+
+        .social-button--mail {
+            color: #0072c6;
+        }
+
+        .social-button--mail::after {
+            background: #0072c6;
+        }
+
+        .social-button--facebook {
+            color: #3b5999;
+        }
+
+        .social-button--facebook::after {
+            background: #3b5999;
+        }
+
+        .social-button--linkedin {
+            color: #0077b5;
+        }
+
+        .social-button--linkedin::after {
+            background: #0077b5;
+        }
+
+        .social-button--github {
+            color: #6e5494;
+        }
+
+        .social-button--github::after {
+            background: #6e5494;
+        }
+
+        .social-button--codepen {
+            color: #212121;
+        }
+
+        .social-button--codepen::after {
+            background: #212121;
+        }
+
+        .social-button--steam {
+            color: #7da10e;
+        }
+
+        .social-button--steam::after {
+            background: #7da10e;
+        }
+
+        .social-button--snapchat {
+            color: #eec900;
+        }
+
+        .social-button--snapchat::after {
+            background: #eec900;
+        }
+
+        .social-button--twitter {
+            color: #55acee;
+        }
+
+        .social-button--twitter::after {
+            background: #55acee;
+        }
+
+        .social-button--instagram {
+            color: #e4405f;
+        }
+
+        .social-button--instagram::after {
+            background: #e4405f;
+        }
+
+        .social-button--npmjs {
+            color: #c12127;
+        }
+
+        .social-button--npmjs::after {
+            background: #c12127;
+        }
+    </style>
+    <script>
+        var ringSizeMapping = [{
+            "diameterMM": 14.9,
+            "circumferenceMM": null,
+            "ringSize": "4",
+            "country": "US",
+            "MM": "46.8"
+        }, {
+            "diameterMM": 15.3,
+            "circumferenceMM": null,
+            "ringSize": "4.50",
+            "country": "US",
+            "MM": "48.0"
+        }, {
+            "diameterMM": 15.7,
+            "circumferenceMM": null,
+            "ringSize": "5",
+            "country": "US",
+            "MM": "49.3"
+        }, {
+            "diameterMM": 16.1,
+            "circumferenceMM": null,
+            "ringSize": "5.50",
+            "country": "US",
+            "MM": "50.6"
+        }, {
+            "diameterMM": 16.5,
+            "circumferenceMM": null,
+            "ringSize": "6",
+            "country": "US",
+            "MM": "51.8"
+        }, {
+            "diameterMM": 16.9,
+            "circumferenceMM": null,
+            "ringSize": "6.50",
+            "country": "US",
+            "MM": "53.1"
+        }, {
+            "diameterMM": 17.3,
+            "circumferenceMM": null,
+            "ringSize": "7",
+            "country": "US",
+            "MM": "54.4"
+        }, {
+            "diameterMM": 17.7,
+            "circumferenceMM": null,
+            "ringSize": "7.50",
+            "country": "US",
+            "MM": "55.7"
+        }, {
+            "diameterMM": 18.1,
+            "circumferenceMM": null,
+            "ringSize": "8",
+            "country": "US",
+            "MM": "56.9"
+        }, {
+            "diameterMM": 18.5,
+            "circumferenceMM": null,
+            "ringSize": "8.50",
+            "country": "US",
+            "MM": "58.2"
+        }, {
+            "diameterMM": 19,
+            "circumferenceMM": null,
+            "ringSize": "9",
+            "country": "US",
+            "MM": "59.5"
+        }, {
+            "diameterMM": 19.4,
+            "circumferenceMM": null,
+            "ringSize": "9.50",
+            "country": "US",
+            "MM": "60.8"
+        }, {
+            "diameterMM": 19.8,
+            "circumferenceMM": null,
+            "ringSize": "10",
+            "country": "US",
+            "MM": "62.1"
+        }, {
+            "diameterMM": 20.2,
+            "circumferenceMM": null,
+            "ringSize": "10.50",
+            "country": "US",
+            "MM": "63.3"
+        }, {
+            "diameterMM": 20.6,
+            "circumferenceMM": null,
+            "ringSize": "11",
+            "country": "US",
+            "MM": "64.6"
+        }, {
+            "diameterMM": 21,
+            "circumferenceMM": null,
+            "ringSize": "11.50",
+            "country": "US",
+            "MM": "65.9"
+        }, {
+            "diameterMM": 21.4,
+            "circumferenceMM": null,
+            "ringSize": "12",
+            "country": "US",
+            "MM": "67.2"
+        }, {
+            "diameterMM": 21.8,
+            "circumferenceMM": null,
+            "ringSize": "12.50",
+            "country": "US",
+            "MM": "68.4"
+        }, {
+            "diameterMM": 22.2,
+            "circumferenceMM": null,
+            "ringSize": "13",
+            "country": "US",
+            "MM": "69.7"
+        },
+
+
+
+        {
+            "diameterMM": 14.9,
+            "circumferenceMM": null,
+            "ringSize": "H",
+            "country": "GB",
+            "MM": "46.8"
+        }, {
+            "diameterMM": 15.1,
+            "circumferenceMM": null,
+            "ringSize": "I.5",
+            "country": "GB",
+            "MM": "48.0"
+        }, {
+            "diameterMM": 15.3,
+            "circumferenceMM": null,
+            "ringSize": "J.5",
+            "country": "GB",
+            "MM": "49.3"
+        }, {
+            "diameterMM": 15.5,
+            "circumferenceMM": null,
+            "ringSize": "K.5",
+            "country": "GB",
+            "MM": "50.6"
+        }, {
+            "diameterMM": 15.7,
+            "circumferenceMM": null,
+            "ringSize": "L.5",
+            "country": "GB",
+            "MM": "51.8"
+        }, {
+            "diameterMM": 15.9,
+            "circumferenceMM": null,
+            "ringSize": "M.5",
+            "country": "GB",
+            "MM": "53.1"
+        }, {
+            "diameterMM": 16.1,
+            "circumferenceMM": null,
+            "ringSize": "N.5",
+            "country": "GB",
+            "MM": "54.4"
+        }, {
+            "diameterMM": 16.3,
+            "circumferenceMM": null,
+            "ringSize": "O.5",
+            "country": "GB",
+            "MM": "55.7"
+        }, {
+            "diameterMM": 16.5,
+            "circumferenceMM": null,
+            "ringSize": "P.5",
+            "country": "GB",
+            "MM": "56.9"
+        }, {
+            "diameterMM": 16.7,
+            "circumferenceMM": null,
+            "ringSize": "Q.5",
+            "country": "GB",
+            "MM": "58.2"
+        }, {
+            "diameterMM": 16.9,
+            "circumferenceMM": null,
+            "ringSize": "R.5",
+            "country": "GB",
+            "MM": "59.5"
+        }, {
+            "diameterMM": 17.1,
+            "circumferenceMM": null,
+            "ringSize": "S.5",
+            "country": "GB",
+            "MM": "60.8"
+        }, {
+            "diameterMM": 17.3,
+            "circumferenceMM": null,
+            "ringSize": "T.5",
+            "country": "GB",
+            "MM": "62.1"
+        }, {
+            "diameterMM": 17.5,
+            "circumferenceMM": null,
+            "ringSize": "U.5",
+            "country": "GB",
+            "MM": "63.3"
+        }, {
+            "diameterMM": 17.7,
+            "circumferenceMM": null,
+            "ringSize": "V.5",
+            "country": "GB",
+            "MM": "64.6"
+        }, {
+            "diameterMM": 17.9,
+            "circumferenceMM": null,
+            "ringSize": "W.5",
+            "country": "GB",
+            "MM": "65.9"
+        }, {
+            "diameterMM": 18.1,
+            "circumferenceMM": null,
+            "ringSize": "X.5",
+            "country": "GB",
+            "MM": "67.2"
+        }, {
+            "diameterMM": 18.3,
+            "circumferenceMM": null,
+            "ringSize": "Z",
+            "country": "GB",
+            "MM": "68.4"
+        }, {
+            "diameterMM": 18.5,
+            "circumferenceMM": null,
+            "ringSize": "Z 1",
+            "country": "GB",
+            "MM": "69.7"
+        }];
+        var countryCode = "US";
+        var flagsURL = "https://ringsizer.hautecarat.com/images/flags/";
+
+        function close_iframe() {
+            parent.postMessage('close_iframe', '*');
+        }
+    </script>
+    <script bis_use="true" type="text/javascript" charset="utf-8"
+        data-bis-config="[&quot;facebook.com/&quot;,&quot;twitter.com/&quot;,&quot;youtube-nocookie.com/embed/&quot;,&quot;//vk.com/&quot;,&quot;//www.vk.com/&quot;,&quot;linkedin.com/&quot;,&quot;//www.linkedin.com/&quot;,&quot;//instagram.com/&quot;,&quot;//www.instagram.com/&quot;,&quot;//www.google.com/recaptcha/api2/&quot;,&quot;//hangouts.google.com/webchat/&quot;,&quot;//www.google.com/calendar/&quot;,&quot;//www.google.com/maps/embed&quot;,&quot;spotify.com/&quot;,&quot;soundcloud.com/&quot;,&quot;//player.vimeo.com/&quot;,&quot;//disqus.com/&quot;,&quot;//tgwidget.com/&quot;,&quot;//js.driftt.com/&quot;,&quot;friends2follow.com&quot;,&quot;/widget&quot;,&quot;login&quot;,&quot;//video.bigmir.net/&quot;,&quot;blogger.com&quot;,&quot;//smartlock.google.com/&quot;,&quot;//keep.google.com/&quot;,&quot;/web.tolstoycomments.com/&quot;,&quot;moz-extension://&quot;,&quot;chrome-extension://&quot;,&quot;/auth/&quot;,&quot;//analytics.google.com/&quot;,&quot;adclarity.com&quot;,&quot;paddle.com/checkout&quot;,&quot;hcaptcha.com&quot;,&quot;recaptcha.net&quot;,&quot;2captcha.com&quot;,&quot;accounts.google.com&quot;,&quot;www.google.com/shopping/customerreviews&quot;,&quot;buy.tinypass.com&quot;,&quot;gstatic.com&quot;,&quot;secureir.ebaystatic.com&quot;,&quot;docs.google.com&quot;,&quot;contacts.google.com&quot;,&quot;github.com&quot;,&quot;mail.google.com&quot;,&quot;chat.google.com&quot;,&quot;audio.xpleer.com&quot;,&quot;keepa.com&quot;,&quot;static.xx.fbcdn.net&quot;,&quot;sas.selleramp.com&quot;,&quot;1plus1.video&quot;,&quot;console.googletagservices.com&quot;,&quot;//lnkd.demdex.net/&quot;,&quot;//radar.cedexis.com/&quot;,&quot;//li.protechts.net/&quot;,&quot;challenges.cloudflare.com/&quot;,&quot;ogs.google.com&quot;]"
+        src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/../executers/vi-tr.js"></script>
+    <style data-jss="" data-meta="MuiDialog">
+        @media print {
+            .MuiDialog-root {
+                position: absolute !important;
+            }
+        }
+
+        .MuiDialog-scrollPaper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .MuiDialog-scrollBody {
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .MuiDialog-scrollBody:after {
+            width: 0;
+            height: 100%;
+            content: "";
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .MuiDialog-container {
+            height: 100%;
+            outline: 0;
+        }
+
+        @media print {
+            .MuiDialog-container {
+                height: auto;
+            }
+        }
+
+        .MuiDialog-paper {
+            margin: 32px;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        @media print {
+            .MuiDialog-paper {
+                box-shadow: none;
+                overflow-y: visible;
+            }
+        }
+
+        .MuiDialog-paperScrollPaper {
+            display: flex;
+            max-height: calc(100% - 64px);
+            flex-direction: column;
+        }
+
+        .MuiDialog-paperScrollBody {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .MuiDialog-paperWidthFalse {
+            max-width: calc(100% - 64px);
+        }
+
+        .MuiDialog-paperWidthXs {
+            max-width: 444px;
+        }
+
+        @media (max-width:507.95px) {
+            .MuiDialog-paperWidthXs.MuiDialog-paperScrollBody {
+                max-width: calc(100% - 64px);
+            }
+        }
+
+        .MuiDialog-paperWidthSm {
+            max-width: 600px;
+        }
+
+        @media (max-width:663.95px) {
+            .MuiDialog-paperWidthSm.MuiDialog-paperScrollBody {
+                max-width: calc(100% - 64px);
+            }
+        }
+
+        .MuiDialog-paperWidthMd {
+            max-width: 960px;
+        }
+
+        @media (max-width:1023.95px) {
+            .MuiDialog-paperWidthMd.MuiDialog-paperScrollBody {
+                max-width: calc(100% - 64px);
+            }
+        }
+
+        .MuiDialog-paperWidthLg {
+            max-width: 1280px;
+        }
+
+        @media (max-width:1343.95px) {
+            .MuiDialog-paperWidthLg.MuiDialog-paperScrollBody {
+                max-width: calc(100% - 64px);
+            }
+        }
+
+        .MuiDialog-paperWidthXl {
+            max-width: 1920px;
+        }
+
+        @media (max-width:1983.95px) {
+            .MuiDialog-paperWidthXl.MuiDialog-paperScrollBody {
+                max-width: calc(100% - 64px);
+            }
+        }
+
+        .MuiDialog-paperFullWidth {
+            width: calc(100% - 64px);
+        }
+
+        .MuiDialog-paperFullScreen {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            max-width: 100%;
+            max-height: none;
+            border-radius: 0;
+        }
+
+        .MuiDialog-paperFullScreen.MuiDialog-paperScrollBody {
+            margin: 0;
+            max-width: 100%;
+        }
+
+        .container {
+            height: 100%;
+        }
+
+        .row-col-first {
+            width: 400px;
+        }
+
+        .row-col-first h2 {
+            font-family: Lora;
+        }
+
+        .row-col-second {
+            width: 200px;
+        }
+
+        .row-col-second p {
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .theme-btn.start-calibration {
+            width: 165px;
+        }
+
+        /* qaisar */
+        #card_calibration_page .pl-4 .main-wrapper,
+        #ring_size_calculator_page .pl-4 .main-wrapper {
+            margin-top: 30px;
+        }
+
+        #card_calibration_page .main-wrapper-text-wrapper,
+        #ring_size_calculator_page .main-wrapper-text-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #card_calibration_page .text-wrapper-subheading,
+        #ring_size_calculator_page .text-wrapper-subheading {
+            /* font-family: Lora; */
+            font-weight: 400;
+            font-size: 13.5px;
+            line-height: 15.84px;
+        }
+
+        #ring_size_calculator_page .ring-size-wrapper {
+            padding: 0 95px;
+        }
+
+        .ring-sizer-buttons-main .theme-btn {
+            height: 48px;
+        }
+
+        #card_calibration_page .text-wrapper-heading,
+        #ring_size_calculator_page .text-wrapper-heading {
+            font-family: Work Sans;
+            font-weight: 500;
+            font-size: 33px;
+            line-height: 42.24px;
+            width: 190px;
+            margin-bottom: 15px;
+        }
+
+        #card_calibration_page .text-wrapper-description,
+        #ring_size_calculator_page .text-wrapper-description {
+            /* font-family: Work Sans; */
+            font-weight: 400;
+            font-size: 16.5px;
+            line-height: 23px;
+            max-width: 335px;
+        }
+
+        .italic {
+            font-style: italic;
+            font-family: "lora";
+            text-align: center;
+        }
+
+        @media(max-width: 768px) {
+            .last-done-btn {
+                padding: 12px 10px !important;
+            }
+            #card_calibration_page .text-wrapper-description,
+            #ring_size_calculator_page .text-wrapper-description {
+                max-width: 375px;
+            }
+        }
+
+        .last-done-btn {
+            padding: 12px 65px;
+        }
+
+        .ring-size-country-change {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ring-size-country-text {
+            padding: 10px 35px;
+            border-radius: 15px;
+            background-color: #FBF8F4;
+        }
+
+        .ring-size-country-text.active {
+            background-color: #EFE9E0;
+        }
+
+        #card_calibration_page .main-wrapper {
+            gap: 15px !important;
+        }
+
+        #last_calibration_page .text-wrapper-subheading {
+            font-size: 25px;
+            font-family: lora;
+        }
+
+        #share_calibration_page .last_calibration_page_img_counter {
+            margin-bottom: 10px;
+        }
+
+        #share_calibration_page .ring-sizer-buttons-main {
+            margin-top: 15px;
+        }
+
+        #init_calibration_page .theme-btn.black-btn {
+            padding: 12px 20px;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const usRingSizeElement = document.querySelector('.us-ring-size');
+
+            function updateRingSizeDisplay() {
+                const activeCountry = document.querySelector('.ring-size-country-text.active').getAttribute('country');
+                const size = usRingSizeElement.textContent;
+
+                let usRingSize = ringSizeMapping.find(ring => ring.ringSize === size && ring.country === 'US');
+                let gbRingSize;
+
+                if (usRingSize) {
+                    gbRingSize = ringSizeMapping.find(ring => ring.MM === usRingSize.MM && ring.country === 'GB');
+                }
+
+                document.querySelectorAll(".ring-sizer-counter").forEach(function (element) {
+                    if (activeCountry === 'GB' && gbRingSize) {
+                        element.querySelector('.ring-sizer-counter-measure').style.display = 'none';
+                        element.querySelector('.ring-sizer-counter-digits').textContent = gbRingSize.ringSize;
+                    } else if (activeCountry === 'US' && usRingSize) {
+                        element.querySelector('.ring-sizer-counter-measure').style.display = 'none';
+                        element.querySelector('.ring-sizer-counter-digits').textContent = usRingSize.ringSize;
+                    } else {
+                        element.querySelector('.ring-sizer-counter-measure').style.display = 'contents';
+                        element.querySelector('.ring-sizer-counter-digits').textContent = gbRingSize.MM;
+                    }
+                });
+            }
+
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'characterData' || mutation.type === 'childList') {
+                        updateRingSizeDisplay();
+                    }
+                });
+            });
+
+            observer.observe(usRingSizeElement, {
+                characterData: true,
+                subtree: true,
+                childList: true
+            });
+
+            // Country change function
+            const ringSizeCountryElements = document.querySelectorAll('.ring-size-country-text');
+            function handleCountryClick(event) {
+                ringSizeCountryElements.forEach(element => {
+                    element.classList.remove('active');
+                });
+                var active_classes = event.target.classList.value;
+                console.log("active_classes: ", active_classes);
+                var elements = document.querySelectorAll('.' + active_classes.split(' ').join('.'));
+                elements.forEach(function (element) {
+                    element.classList.add('active');
+                });
+                updateRingSizeDisplay();
+            }
+            ringSizeCountryElements.forEach(element => {
+                element.addEventListener('click', handleCountryClick);
+            });
+
+        });
+    </script>
+</head>
+
+<body __processed_a542ac49-a136-41a5-ac10-af0bb84f8095__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJkaXNhYmxlZCIsIkZBQ0VCT09LIjoiZGlzYWJsZWQiLCJUV0lUVEVSIjoiZGlzYWJsZWQiLCJSRURESVQiOiJkaXNhYmxlZCIsIlBJTlRFUkVTVCI6ImRpc2FibGVkIiwiSU5TVEFHUkFNIjoiZGlzYWJsZWQiLCJMSU5LRURJTiI6ImRpc2FibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMC4xNiIsInNjb3JlIjoyMDAxNn1d" cz-shortcut-listen="true">
+    <div class="btn-close" onclick="close_iframe();">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M1.875 2L14.4 14.525" stroke="black" stroke-width="2.25" stroke-linecap="round"/>
+            <path d="M14.4 2L1.875 14.525" stroke="black" stroke-width="2.25" stroke-linecap="round"/>
+        </svg>
+    </div>
+    <!-- Start Init Calibration Page -->
+    <section id="init_calibration_page" class="page" style="display: none;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="row-col">
+                    <div class="row-col-first">
+                        <div class="main-wrapper">
+                            <p>SIMPLE STEPS</p>
+                            <h2>Digital Ring Sizer</h2>
+                            <p>Use a Credit/Debit Card to Calibrate Your Screen Dimensions - (no purchase necessary)!
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row-col-second">
+                        <div class="main-wrapper">
+                            <input name="calibration_type" class="radio-btn" type="radio" value="card" checked=""
+                                style="display: none;">
+                            <button class="theme-btn black-btn start-calibration">START NOW</button>
+                            <p>Use our printable ring sizer PDF to find your ring size. <a href="">Click here</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Init Calibration Page  -->
+    <!-- Start Card Calibration Page -->
+    <section id="card_calibration_page" class="page" style="display: none;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-6 col-sm-9 col-xs-12 col-12 main-wrapper-column pl-0 first-col-wrapper pr-0">
+                    <div class="main-wrapper">
+                        <div class="main-wrapper-text-wrapper">
+                            <h5 class="text-wrapper-subheading">STEP 1</h5>
+                            <h3 class="text-wrapper-heading">Calibrate To Card Size</h3>
+                            <p class="text-wrapper-description">Place your card on the screen so it aligns with the
+                                solid line at the top of the screen. Then use the scroll bar (+ and -) to adjust the
+                                screen so that the dotted line sits just beneath your card.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-9 col-xs-12 col-12 main-wrapper-column pl-0 pr-0 ">
+                    <div class="main-wrapper">
+                        <p class="sub-heading" style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px; padding-top:20px; padding-bottom:20px;">
+                            PLACE YOUR CARD HERE
+                        </p>
+                        <div class="card-image-main px-5">
+                            <div class="card-image-wrapper" style="background-size: auto 271.5px;">
+                                <div class="lines" style="height: 275.5px;"></div>
+                            </div>
+                            <div class="main-range-section range-progress-bar">
+                                <div class="step-button" id="card_resize_decrease">-</div>
+                                <div class="line range-wrapper">
+                                    <input type="range" name="qty" step="0.5" min="100" max="400" value="220" class="progress qty" id="card_resize_range">
+                                </div>
+                                <div class="step-button" id="card_resize_increase">+</div>
+                            </div>
+                            <div class="button-wrapper">
+                                <button class="theme-btn black-btn full-width-btn btn-save-calibration w-100">CONTINUE</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Card Calibration Page  -->
+    <!-- Start Last Calibration Page -->
+    <section id="last_calibration_page" class="page" style="display: none;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-12 col-sm-9 col-xs-12 col-12 main-wrapper-column">
+                    <div class="main-wrapper">
+                        <div class="main-wrapper-text-wrapper">
+                            <h5 class="text-wrapper-subheading">You just found your exact ring size!</h5>
+                            <p class="italic">Share your ring size with friends and loved ones.</p>
+                            <div class="last_calibration_page_img_counter">
+                                <div class="last_calibration_page_img">
+                                    <img src="ring-gold-drop.png" class="ring-image-last" alt="Ring">
+                                </div>
+                                <span class="ring-sizer-counter">
+                                    <span class="ring-sizer-counter-digits">4.5</span><span
+                                        class="ring-sizer-counter-measure">mm</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="ring-size-country-change">
+                            <div class="ring-size-country-text ring-size-country-eur" country="GB">EUR</div>
+                            <div class="ring-size-country-text ring-size-country-usa active" country="US">USA</div>
+                            <div class="ring-size-country-text ring-size-country-mm" country="mm">mm</div>
+                        </div>
+                        <div class="ring-sizer-buttons-main">
+                            <button class="theme-btn white-btn btn-go-to width-50" data-page="ring_size_calculator_page">BACK</button>
+                            <button class="theme-btn btn-go-to black-btn width-50" data-page="share_calibration_page">
+                                <span style="margin-right: 10px;">SHARE</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
+                                    <path d="M5.31059 6.44352L6.40785 12.0213C6.45322 12.2524 6.56906 12.4638 6.73944 12.6264C6.90983 12.7889 7.12639 12.8948 7.35936 12.9293C7.59234 12.9638 7.83029 12.9254 8.0405 12.8192C8.25072 12.713 8.42289 12.5443 8.53334 12.3363L13.8651 2.29977C13.9603 2.12255 14.0066 1.92313 13.9991 1.72208C13.9916 1.52103 13.9306 1.32563 13.8223 1.15602M5.31059 6.44352L1.32434 2.58477C1.16099 2.4269 1.04852 2.22382 1.00138 2.00159C0.954237 1.77936 0.974563 1.54812 1.05975 1.33752C1.14494 1.12692 1.29111 0.94658 1.4795 0.819629C1.66789 0.692679 1.88992 0.624909 2.11709 0.625015H12.8578C13.0504 0.624019 13.2401 0.672283 13.4088 0.765221C13.5774 0.858159 13.7203 0.992684 13.8223 1.15602M5.31059 6.44352L13.8223 1.15602M13.8223 1.15602L13.8966 1.10952" stroke="white" stroke-width="1.125" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Last Calibration Page  -->
+    <!-- Start Last Calibration Page -->
+    <section id="share_calibration_page" class="page" style="display: none;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12 col-lg-12 col-sm-9 col-xs-12 col-12 main-wrapper-column">
+                    <div class="main-wrapper">
+                        <div class="main-wrapper-text-wrapper">
+                            <h5 class="text-wrapper-subheading">I Found The Perfect Fit,</h5>
+                            <h5 class="text-wrapper-subheading">Here Is My Hautecarat Ring Size!</h5>
+                            <div class="last_calibration_page_img_counter">
+                                <div class="last_calibration_page_img">
+                                    <img src="ring-gold-drop.png" class="ring-image-last" alt="Ring">
+                                </div>
+                                <span class="ring-sizer-counter">
+                                    <span class="ring-sizer-counter-digits">4.5</span><span
+                                        class="ring-sizer-counter-measure">mm</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="ring-size-country-change">
+                            <div class="ring-size-country-text ring-size-country-eur" country="GB">EUR</div>
+                            <div class="ring-size-country-text ring-size-country-usa active" country="US">USA</div>
+                            <div class="ring-size-country-text ring-size-country-mm" country="mm">mm</div>
+                        </div>
+                        <p class="italic">Explore Hautecarat's Stunning Ring Collections</p>
+                        <div class="social-buttons">
+                            <a data-dialog="dialogOne" href="#" class="social-button social-button--facebook" aria-label="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a data-dialog="dialogOne" href="#" class="social-button social-button--linkedin" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a data-dialog="dialogOne" href="#" class="social-button social-button--instagram" aria-label="instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a data-dialog="dialogOne" href="#" class="social-button social-button--mail" aria-label="mail">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                        <div class="ring-sizer-buttons-main">
+                            <button class="theme-btn black-btn btn-go-to last-done-btn">VISIT WEBSITE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Last Calibration Page  -->
+    <!-- Start Ring Size Calculator Page -->
+    <section id="ring_size_calculator_page" class="page" style="display: none;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-6 col-sm-8 col-xs-12 col-12 pl-0 pr-0 first-col-wrapper">
+                    <div class="main-wrapper">
+                        <div class="main-wrapper-text-wrapper">
+                            <h5 class="text-wrapper-subheading">STEP 2</h5>
+                            <h3 class="text-wrapper-heading">Measure Your Ring Size</h3>
+                            <p class="text-wrapper-description">Place your ring over the arrows shown in the circle.
+                                Then adjust that scroll bar (+ and -) so that the tip of each arrow touches the INSIDE
+                                of your ring. Note, the tip of the arrows should NOT be hidden by your ring on any side.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-8 col-xs-12 col-12 pl-0 pr-0">
+                    <div class="main-wrapper text-center">
+                        <p class="sub-heading"
+                            style="box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px; padding-top:20px; padding-bottom:20px;">
+                            PLACE YOUR RING ON THE CIRCLE 
+                        </p>
+                        <div class="ring-size-wrapper px-5">
+                            <div class="ring-sizer-wrapper">
+                                <div class="ring-sizer">
+                                    <span class="ring-sizer-counter">
+                                        <span class="ring-sizer-counter-digits">4.5</span><span
+                                            class="ring-sizer-counter-measure">mm</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ring-size-country-change">
+                                <div class="ring-size-country-text ring-size-country-eur" country="GB">EUR</div>
+                                <div class="ring-size-country-text ring-size-country-usa active" country="US">USA</div>
+                                <div class="ring-size-country-text ring-size-country-mm" country="mm">mm</div>
+                            </div>
+                            <div class="message"></div>
+                            <div class="main-range-section range-progress-bar">
+                                <div class="step-button" id="ring_resize_decrease">-</div>
+                                <div class="line range-wrapper">
+                                    <input type="range" name="qty" step="0.5" value="80" min="57.5" max="92"
+                                        class="progress qty" id="ring_resize_range">
+                                </div>
+                                <div class="step-button" id="ring_resize_increase">+</div>
+                                <div class="ring-sizer-buttons-main">
+                                    <button class="theme-btn black-btn white-btn btn-go-to width-50"
+                                        data-page="card_calibration_page">BACK</button>
+                                    <button class="theme-btn black-btn done-btn btn-go-to width-50"
+                                        data-page="last_calibration_page">DONE</button>
+                                </div>
+                            </div>
+                            <div class="size-wrapper" style="display: none">
+                                <p>Your Ring Size is</p>
+                                <div class="ring-measurement-wrapper">
+                                    <div class="us-ring-size-caption">
+                                        <img src="https://ringsizer.hautecarat.com/images/flags/united-states.svg"
+                                            class="country-flag" alt="United States Flag Icon">
+                                        <span class="country-caption">US</span>
+                                        <span class="us-ring-size">3</span>
+                                    </div>
+                                    <div class="ring-size-caption">
+                                        <span class="country-caption">UK</span>
+                                        <span class="ring-size">3</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <button data-dialog="dialogOne">Open dialogOne</button> -->
+    <dialog id="dialogOne">
+        <div class="dialogOne-close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M1.875 2L14.4 14.525" stroke="black" stroke-width="2.25" stroke-linecap="round"></path>
+                <path d="M14.4 2L1.875 14.525" stroke="black" stroke-width="2.25" stroke-linecap="round"></path>
+            </svg>
+        </div>
+        <div class="dialogOne-wrapper-main">
+            <label for="dialogOneTitle">Post title</label>
+            <div class="dialogOne-wrapper">
+                <input type="text" id="dialogOneTitle" value="I Found The Perfect Fit, You can find more details here:" disabled />
+                <button class="dialogOne-copy-title">Copy</button>
+            </div>
+        </div>
+        <div class="dialogOne-wrapper-main">
+            <label for="dialogOneValue">Post link</label>
+            <div class="dialogOne-wrapper">
+                <input type="text" id="dialogOneValue" value="adasdasd" disabled />
+                <button class="dialogOne-copy">Copy</button>
+            </div>
+        </div>
+    </dialog>
+    <style>
+        .dialogOne-close{
+            position: absolute;
+            cursor: pointer;
+            z-index: 1;
+            right: 30px;
+            top: 30px;
+        }
+        .dialogOne-wrapper{
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .dialogOne-wrapper-main{
+            margin-top: 40px;
+        }
+        #dialogOneValue, #dialogOneTitle{
+            width: 100%;
+            padding: 8px;
+            font-size: 20px;
+            border-radius: 5px;
+            border: 1px solid #9b9b9b;
+        }
+        dialog{
+            width:50%;
+            max-height:400px;
+            padding:30px 30px 70px 30px;
+            border:0;
+            box-shadow:0 0 10px rgba(0,0,0,0.2);
+            border-radius:5px;
+            position:relative;  
+        }
+
+        dialog button{
+            color: #ffffff;
+            background: #000000;
+            border-radius: 5px;
+            font-size: 14px;
+            border: solid 1px #000000;    
+            padding: 12px 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            outline: none;
+        }
+        dialog button:hover {
+            background: #ffffff;
+            color: #1A2D44;
+            border-color: #000000;
+        }
+    </style>
+    <script>
+        document.querySelectorAll("[data-dialog]").forEach(button => {
+            button.addEventListener("click", (widget)=> {
+                const ariaLabel = widget.currentTarget.getAttribute('aria-label');
+        
+                // Log or use the aria-label as needed
+                console.log(ariaLabel);
+                const dialog = document.querySelector(`#${button.dataset.dialog}`);
+                dialog.showModal();
+                
+                document.body.style.overflow = "hidden";
+                document.documentElement.style.overflow = "hidden";
+
+                // Assume `ringSize` is the variable containing the ring size from the widget
+                const ringSizeElement = document.getElementById('ring-size'); // or adjust to match your widget's output
+
+                // console.log("widget: ", widget);
+                var dialog_input = document.getElementById('dialogOneValue');
+                var dialog_input_title = document.getElementById('dialogOneTitle');
+                var dialog_copy = document.getElementsByClassName('dialogOne-copy');
+                var dialog_copy_title = document.getElementsByClassName('dialogOne-copy-title');
+                // Function to update share links when ring size is available
+                function updateShareLinks(ringSize) {
+                    const pageUrl = `https://hautecarat.com/pages/faqs`;
+                    const message = "I Found The Perfect Fit, Here Is My Hautecarat Ring Size!";
+
+                    if (ariaLabel === "Facebook") {
+                        const link = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}&quote=${encodeURIComponent(message)}`;
+                        // window.open(link, "_blank");
+                        applyLinkCopy(link);
+                        console.log("Facebook link: ", link);
+                    } 
+                    else if (ariaLabel === "LinkedIn") {
+                        const link = `https://www.linkedin.com/shareArticle?mini=true&url=${pageUrl}`;
+                        window.open(link, "_blank");
+                        // applyLinkCopy(link);
+                        console.log("LinkedIn link: ", link);
+                    }
+                    else if (ariaLabel === "Instagram") {
+                        // applyLinkCopy(link);
+                        alert("Instagram doesn't support web-based sharing directly. Please share via the Instagram app.");
+                    } 
+                    else {
+                        const subject = "Check out my ring size!";
+                        const body = `${message} You can find more details here: ${pageUrl}`;
+                        const link = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                        applyLinkCopy(link);
+                        // window.location.href = link;
+                    }
+                }
+
+                function applyLinkCopy(link){
+                    // console.log("link: ", link);
+                    link = `https://hautecarat.com/pages/size?country=usa&size=8.50`;
+                    dialog_input.value = link;
+                    // Add event listener to the copy button
+                    // Add the event listener to the copy button
+                    dialog_copy[0].addEventListener('click', function() {
+                        // Select the text in the input
+                        dialog_input.select();
+                        dialog_input.setSelectionRange(0, 99999); // For mobile devices
+
+                        // Copy the selected text to the clipboard
+                        document.execCommand('copy');
+
+                        // Change the button text to "Copied!"
+                        dialog_copy[0].textContent = 'Copied!';
+
+                        // After 500ms, change the button text back to "Copy"
+                        setTimeout(function() {
+                            dialog_copy[0].textContent = 'Copy';
+                        }, 1500);
+                    });
+
+                    // Add the event listener to the copy title button
+                    dialog_copy_title[0].addEventListener('click', function() {
+                        // Select the text in the input
+                        dialog_input_title.select();
+                        dialog_input_title.setSelectionRange(0, 99999); // For mobile devices
+
+                        // Copy the selected text to the clipboard
+                        document.execCommand('copy');
+
+                        // Change the button text to "Copied!"
+                        dialog_copy_title[0].textContent = 'Copied!';
+
+                        // After 500ms, change the button text back to "Copy"
+                        setTimeout(function() {
+                            dialog_copy_title[0].textContent = 'Copy';
+                        }, 1500);
+                    });
+
+                }
+
+                // Example: assuming the widget sets the ring size in `ringSizeElement` (adjust as needed)
+                // if (ringSizeElement) {
+                    // const ringSize = ringSizeElement.innerText || ringSizeElement.value; // get ring size text/value
+                    updateShareLinks();
+                // }
+                
+                dialog.querySelector(".dialogOne-close").addEventListener("click", () => {
+                    dialog.close();
+                    document.body.style.removeProperty("overflow");
+                    document.documentElement.style.removeProperty("overflow");
+                })
+            })
+        })
+    </script>
+    <!-- End Ring Size Calculator Page  -->
+    <script src="https://ringsizer.hautecarat.com/js/pages/calculator/jquery-3.6.2.min.js"></script>
+    <script src="https://ringsizer.hautecarat.com/js/pages/calculator/bootstrap.min.js"></script>
+    <script src="https://ringsizer.hautecarat.com/js/pages/calculator/jquery.cookie.js"></script>
+    <script src="https://ringsizer.hautecarat.com/js/pages/calculator/main.js?v=1.0"></script>
+    <div id="6D9C5E62-B31F-304C-976E-71950C1B8E62"></div>
+    <style>
+        @media (max-width: 1000px) {
+            #init_calibration_page {
+                background: url('mbl-ring-img.png') no-repeat center center/cover;
+                height: 50%;
+            }
+
+            body {
+                padding: 0px !important;
+            }
+
+            #init_calibration_page .row-col-first {
+                width: auto;
+
+            }
+
+            #init_calibration_page .container {
+                height: 868px;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            #init_calibration_page .row-col {
+                position: absolute;
+                bottom: 0%;
+                left: auto;
+                transform: translateY(120%);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                top: auto;
+                gap: 0 !important;
+            }
+
+            #init_calibration_page .row-col-first {
+                width: auto;
+                text-align: center;
+            }
+
+            #init_calibration_page .main-wrapper {
+                max-width: 310px;
+                align-items: center;
+                gap: 0px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #init_calibration_page .row-col-second {
+                width: 200px;
+                text-align: center;
+            }
+
+            #init_calibration_page .main-wrapper p:first-of-type {
+                font-size: 14px;
+                margin-bottom: 14px;
+            }
+
+            #init_calibration_page .main-wrapper h2 {
+                font-size: 34px;
+                margin-bottom: 10px;
+            }
+
+            #init_calibration_page .row-col-first .main-wrapper p:last-of-type {
+                font-size: 16px;
+                margin-bottom: 13px;
+            }
+
+            #init_calibration_page .row-col-second .main-wrapper p:last-of-type {
+                font-size: 14px;
+                margin-bottom: 13px;
+            }
+
+            #init_calibration_page .theme-btn.start-calibration {
+                width: 144px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #init_calibration_page .theme-btn {
+                padding: 10px 20px;
+                margin: 30px 0 35px 0;
+            }
+
+            .page-header {
+                padding: 20px;
+                background: #FBF8F4;
+                position: relative;
+            }
+
+            #card_calibration_page .main-wrapper img,
+            #ring_size_calculator_page img {
+                display: none;
+            }
+
+            #card_calibration_page .main-wrapper-text-wrapper,
+            #ring_size_calculator_page .main-wrapper-text-wrapper {
+                position: initial;
+                transform: none;
+                align-items: center;
+            }
+
+            #card_calibration_page .text-wrapper-heading,
+            #ring_size_calculator_page .text-wrapper-heading {
+                text-align: center;
+            }
+
+            #card_calibration_page .sub-heading,
+            #ring_size_calculator_page .sub-heading {
+                font-size: 16px;
+                margin: 0px;
+            }
+
+            body #card_calibration_page .main-wrapper-column,
+            body #ring_size_calculator_page .main-wrapper-column {
+                padding-right: 0;
+                padding-left: 0 !important;
+            }
+
+            #card_calibration_page .text-wrapper-description,
+            #ring_size_calculator_page .text-wrapper-description {
+                text-align: center;
+            }
+
+            #card_calibration_page .main-wrapper .row.px-5,
+            #ring_size_calculator_page .main-wrapper .row.px-5 {
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+            }
+
+            #card_calibration_page .btn-save-calibration {
+                width: auto !important;
+            }
+
+            .mobile-close-icon {
+                display: block !important;
+            }
+
+            .desktop-icon-close {
+                display: none;
+            }
+
+            #card_calibration_page .text-wrapper-subheading,
+            #ring_size_calculator_page .text-wrapper-subheading {
+                font-size: 14px;
+                margin-top: 17px;
+                margin-bottom: 9px;
+            }
+
+            #card_calibration_page .text-wrapper-heading,
+            #ring_size_calculator_page .text-wrapper-heading {
+                font-size: 30px;
+                margin-bottom: 13px;
+
+            }
+
+            #card_calibration_page .text-wrapper-description {
+                font-size: 12px !important;
+                margin-bottom: 9px;
+            }
+
+            #card_calibration_page .card-image-wrapper {
+                margin-top: 21.5px;
+                margin-bottom: 40px;
+            }
+
+            #card_calibration_page .theme-btn {
+                margin: 27px auto 87px;
+            }
+
+            .btn-close {
+                right: 12px;
+                top: 15px !important;
+            }
+
+            body #ring_size_calculator_page .col-md-6.col-lg-6.col-sm-8.col-xs-12.col-12 {
+                padding-right: 0px;
+                padding-left: 0px !important;
+            }
+
+            #ring_size_calculator_page .ring-sizer-buttons-main {
+                justify-content: center;
+                gap: 7px;
+            }
+
+            #ring_size_calculator_page .ring-sizer-button-back,
+            #ring_size_calculator_page .ring-sizer-button-done {
+                max-width: 144px;
+            }
+
+            #ring_size_calculator_page .text-wrapper-description {
+                margin-bottom: 20px !important;
+                font-size: 12px !important;
+            }
+
+            #last_calibration_page,
+            #share_calibration_page {
+                padding: 0px !important;
+            }
+
+            #last_calibration_page .main-wrapper-text-wrapper {
+                /* margin-top: 70px; */
+                align-items: center;
+            }
+
+            #last_calibration_page .text-wrapper-subheading {
+                font-size: 26px;
+                max-width: 257px;
+                margin-bottom: 23px;
+            }
+
+            #last_calibration_page .main-wrapper-text-wrapper p {
+                font-style: italic;
+                font-size: 20px;
+                max-width: 253px;
+                margin-bottom: 44px;
+            }
+
+            #share_calibration_page .main-wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #share_calibration_page .main-wrapper-text-wrapper .text-wrapper-subheading {
+                font-size: 26px;
+                max-width: 307px;
+                margin-bottom: 0px;
+            }
+
+            #share_calibration_page .main-wrapper-text-wrapper {
+                align-items: center;
+            }
+
+            #share_calibration_page .last_calibration_page_img_counter {
+                margin-top: 65px;
+            }
+
+            #share_calibration_page .main-wrapper>p {
+                margin-top: 20px;
+                max-width: 264px;
+                text-align: center;
+                font-style: italic;
+                font-size: 20px;
+            }
+
+            #share_calibration_page .ring-sizer-buttons-main {
+                justify-content: center !important;
+            }
+
+            #share_calibration_page .ring-sizer-button-back {
+                max-width: 144px;
+                background: black;
+                color: white;
+                border-radius: 5px !important;
+                padding: 9px !important;
+            }
+
+            .theme-btn.black-btn {
+                max-width: 144px;
+                min-width: 144px;
+                height: 43px !important;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: 400 !important;
+            }
+
+            .theme-btn.white-btn {
+                max-width: 144px;
+                min-width: 144px;
+                height: 43px !important;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: 400 Im !important;
+            }
+
+            .row.justify-content-center {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #ring_size_calculator_page .ring-size-wrapper {
+                padding: 0px 10px !important;
+            }
+            #ring_size_calculator_page .ring-sizer-wrapper {
+                height: 250px;
+            }
+            #last_calibration_page .main-wrapper, #share_calibration_page .main-wrapper{
+                padding-top: 100px !important;
+            }
+            #last_calibration_page .main-wrapper-text-wrapper{
+                margin-bottom: 20px;
+            }
+            #last_calibration_page .ring-size-country-change{
+                margin-bottom: 50px;
+            }
+            .card-image-main.px-5{
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+        }
+    </style>
+    <script>
+        function initialize() {
+            //let app_url = "https://ringsizer.net"
+            let app_url = document.getElementById("ring-sizer")?.getAttribute("data-domain");
+            if (!app_url) {
+                app_url = "ringsizer.grownbrilliance.com"
+            }
+            let backdrop = null;
+            let wrapper = null;
+            let iframe = null;
+            let body = document.getElementsByTagName("body")[0];
+            let store_code = document.getElementById("ring-sizer")?.getAttribute("data-store_code");
+            let ring_sizer_url = "https://" + app_url + "/ring-size-calculator/" + store_code;
+            let iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+
+            backdrop = document.createElement("div");
+            backdrop.id = "backdrop_ring_sizer";
+            backdrop.style.overflow = "hidden";
+            backdrop.style.display = "none";
+            backdrop.style.position = "fixed";
+            backdrop.style.zIndex = "9999999999";
+            backdrop.style.left = "0";
+            backdrop.style.top = "0";
+            backdrop.style.right = "0";
+            backdrop.style.bottom = "0";
+            backdrop.style.backgroundColor = "#00000055";
+
+            wrapper = document.createElement("div");
+            wrapper.id = "wrapper_ring_sizer";
+            wrapper.style.overflow = "hidden";
+            //wrapper.style.display = "none";
+            wrapper.style.position = "fixed";
+            //wrapper.style.zIndex = "9999999999";
+            wrapper.style.left = "0%";
+            wrapper.style.top = "0%";
+            wrapper.style.right = "0%";
+            wrapper.style.bottom = "0%";
+            if (window.innerWidth <= 768) {
+                wrapper.style.height = "100%";
+            } else {
+                wrapper.style.height = "560px";
+            }
+            wrapper.style.maxWidth = "1100px";
+            wrapper.style.margin = "auto";
+            wrapper.style.borderRadius = "5px"
+            wrapper.style.backgroundColor = "#ffffff";
+            wrapper.style.boxShadow = "0px 0px 10px 5px #22222255";
+
+            if (iOS) {
+                var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+                if (parseInt(v[1], 10) < 13) {
+                    wrapper.style.cssText += 'overflow:auto;-webkit-overflow-scrolling:touch';
+                }
+            }
+
+            iframe = document.createElement("iframe");
+            iframe.id = "ifrm_ring_sizer";
+            iframe.name = "ifrm_ring_sizer";
+            iframe.frameBorder = "0";
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
+            iframe.style.display = "block";
+            iframe.style.margin = "auto";
+            //iframe.src = ring_sizer_url;
+
+            document.getElementById("ring-sizer")?.addEventListener("click", open_iframe, false);
+            backdrop.appendChild(wrapper);
+            wrapper.appendChild(iframe);
+            body.appendChild(backdrop);
+            //document.getElementById("ring-sizer").appendChild(iframe);
+
+            function open_iframe() {
+                //body.style.overflow = "hidden";
+                iframe.src = ring_sizer_url;
+                backdrop.style.display = "block";
+            }
+            function close_iframe() {
+                //body.style.overflow = "auto";
+                iframe.src = "";
+                backdrop.style.display = "none";
+            }
+        }
+
+        initialize();
+
+        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+        var eventer = window[eventMethod];
+        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+
+        eventer(messageEvent, function (e) {
+            let app_url = document.getElementById("ring-sizer").getAttribute("data-domain");
+            if (!app_url) {
+                app_url = "ringsizer.grownbrilliance.com"
+            }
+            var origin_url = e.origin.replace('http://', '').replace('https://', '').split(/[/?#]/)[0];
+            //if(origin_url == "ringsizer.grownbrilliance.com" && e.data == "close_iframe") {
+            if (origin_url == app_url && e.data == "close_iframe") {
+
+                var body = document.getElementsByTagName("body")[0];
+                var iframe = document.getElementById("ifrm_ring_sizer");
+                var wrapper = document.getElementById("wrapper_ring_sizer");
+                var backdrop = document.getElementById("backdrop_ring_sizer");
+                body.style.overflow = "auto";
+                iframe.src = "";
+                backdrop.style.display = "none";
+            }
+        }, false);
+    </script>
+</body>
+</html>
