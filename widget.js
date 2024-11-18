@@ -85,10 +85,6 @@ var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
 var eventer = window[eventMethod];
 var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
 
-var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-var eventer = window[eventMethod];
-var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-
 eventer(messageEvent, function (e) {
     // Directly check if the message is 'close_iframe'
     if (e.data == "close_iframe") {
