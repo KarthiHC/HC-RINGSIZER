@@ -4,15 +4,7 @@ function initialize() {
         app_url = "https://karthihc.github.io/HC-RINGSIZER/ring-sizer";
     }
 
-    let backdrop = null;
-    let wrapper = null;
-    let iframe = null;
-    let body = document.getElementsByTagName("body")[0];
-    let store_code = document.getElementById("ring-sizer")?.getAttribute("data-store_code");
-    let ring_sizer_url = app_url;
-    let iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
-
-    backdrop = document.createElement("div");
+    let backdrop = document.createElement("div");
     backdrop.id = "backdrop_ring_sizer";
     backdrop.style.overflow = "hidden";
     backdrop.style.display = "none";
@@ -24,7 +16,7 @@ function initialize() {
     backdrop.style.bottom = "0";
     backdrop.style.backgroundColor = "#00000055";
 
-    wrapper = document.createElement("div");
+    let wrapper = document.createElement("div");
     wrapper.id = "wrapper_ring_sizer";
     wrapper.style.overflow = "hidden";
     wrapper.style.position = "fixed";
@@ -43,14 +35,7 @@ function initialize() {
     wrapper.style.backgroundColor = "#ffffff";
     wrapper.style.boxShadow = "0px 0px 10px 5px #22222255";
 
-    if (iOS) {
-        var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
-        if (parseInt(v[1], 10) < 13) {
-            wrapper.style.cssText += 'overflow:auto;-webkit-overflow-scrolling:touch';
-        }
-    }
-
-    iframe = document.createElement("iframe");
+    let iframe = document.createElement("iframe");
     iframe.id = "ifrm_ring_sizer";
     iframe.name = "ifrm_ring_sizer";
     iframe.frameBorder = "0";
@@ -59,23 +44,19 @@ function initialize() {
     iframe.style.display = "block";
     iframe.style.margin = "auto";
 
-    // Attach the open_iframe function
     document.getElementById("ring-sizer")?.addEventListener("click", open_iframe, false);
-
     backdrop.appendChild(wrapper);
     wrapper.appendChild(iframe);
-    body.appendChild(backdrop);
+    document.body.appendChild(backdrop);
 
-    // Define open_iframe function
     function open_iframe() {
-        iframe.src = ring_sizer_url;
+        iframe.src = app_url;
         backdrop.style.display = "block";
     }
 
-    // Define close_iframe function in global context
     window.close_iframe = function() {
-        iframe.src = ""; // Clear the iframe source
-        backdrop.style.display = "none"; // Hide the backdrop
+        iframe.src = "";
+        backdrop.style.display = "none";
     };
 }
 
@@ -92,4 +73,3 @@ eventer(messageEvent, function (e) {
         window.close_iframe();
     }
 }, false);
-
