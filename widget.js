@@ -85,15 +85,15 @@ var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
 var eventer = window[eventMethod];
 var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
 
-eventer(messageEvent, function (e) {
-    let app_url = document.getElementById("ring-sizer").getAttribute("data-domain");
-    if (!app_url) {
-        app_url = "karthihc.github.io";
-    }
-    var origin_url = e.origin.replace('http://', '').replace('https://', '').split(/[/?#]/)[0];
+var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+var eventer = window[eventMethod];
+var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
 
-    if (origin_url == app_url && e.data == "close_iframe") {
+eventer(messageEvent, function (e) {
+    // Directly check if the message is 'close_iframe'
+    if (e.data == "close_iframe") {
         // Call the global close_iframe function
         window.close_iframe();
     }
 }, false);
+
