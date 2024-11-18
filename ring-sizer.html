@@ -2681,5 +2681,12 @@
             }
         }
     </style>
+    <script>
+        // Define close_iframe function in global context
+    window.close_iframe = function() {
+        iframe.src = ""; // Clear the iframe source
+        backdrop.style.display = "none"; // Hide the backdrop
+    };
+    </script>
 </body>
 </html>
