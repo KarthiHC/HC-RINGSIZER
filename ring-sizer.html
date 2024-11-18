@@ -2686,17 +2686,16 @@
     </style>
     <script>
         function initialize() {
-            //let app_url = "https://ringsizer.net"
             let app_url = document.getElementById("ring-sizer")?.getAttribute("data-domain");
             if (!app_url) {
-                app_url = "ringsizer.grownbrilliance.com"
+                app_url = "https://karthihc.github.io/HC-RINGSIZER/ring-sizer"
             }
             let backdrop = null;
             let wrapper = null;
             let iframe = null;
             let body = document.getElementsByTagName("body")[0];
             let store_code = document.getElementById("ring-sizer")?.getAttribute("data-store_code");
-            let ring_sizer_url = "https://" + app_url + "/ring-size-calculator/" + store_code;
+            let ring_sizer_url = app_url;
             let iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 
             backdrop = document.createElement("div");
@@ -2776,7 +2775,7 @@
         eventer(messageEvent, function (e) {
             let app_url = document.getElementById("ring-sizer").getAttribute("data-domain");
             if (!app_url) {
-                app_url = "ringsizer.grownbrilliance.com"
+                app_url = "karthihc.github.io"
             }
             var origin_url = e.origin.replace('http://', '').replace('https://', '').split(/[/?#]/)[0];
             //if(origin_url == "ringsizer.grownbrilliance.com" && e.data == "close_iframe") {
