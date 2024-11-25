@@ -2681,6 +2681,16 @@
             }
         }
     </style>
-    
+    <script>
+// Website B: Notify Website A when the close button is clicked
+function closeIframe() {
+    // Send a message to the parent window (Website A)
+    window.parent.postMessage("close_iframe", "*");
+}
+
+// Attach closeIframe to the button click event
+document.getElementById("close_button").onclick = closeIframe;
+
+    </script>
 </body>
 </html>
