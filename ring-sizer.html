@@ -1955,12 +1955,26 @@
 </head>
 
 <body __processed_a542ac49-a136-41a5-ac10-af0bb84f8095__="true" bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJkaXNhYmxlZCIsIkZBQ0VCT09LIjoiZGlzYWJsZWQiLCJUV0lUVEVSIjoiZGlzYWJsZWQiLCJSRURESVQiOiJkaXNhYmxlZCIsIlBJTlRFUkVTVCI6ImRpc2FibGVkIiwiSU5TVEFHUkFNIjoiZGlzYWJsZWQiLCJMSU5LRURJTiI6ImRpc2FibGVkIiwiQ09ORklHIjoiZGlzYWJsZWQifSwidmVyc2lvbiI6IjIuMC4xNiIsInNjb3JlIjoyMDAxNn1d" cz-shortcut-listen="true">
-    <div class="btn-close" onclick="close_iframe();">
+<!--     <div class="btn-close" onclick="close_iframe();">
         <svg style="pointer-events: none;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M1.875 2L14.4 14.525" stroke="black" stroke-width="2.25" stroke-linecap="round"/>
             <path d="M14.4 2L1.875 14.525" stroke="black" stroke-width="2.25" stroke-linecap="round"/>
         </svg>
-    </div>
+    </div> -->
+    <div class="btn-close" onclick="closeIframe();">
+    <svg style="pointer-events: none;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M1.875 2L14.4 14.525" stroke="black" stroke-width="2.25" stroke-linecap="round"></path>
+        <path d="M14.4 2L1.875 14.525" stroke="black" stroke-width="2.25" stroke-linecap="round"></path>
+    </svg>
+</div>
+
+<script>
+    function closeIframe() {
+        // Notify the parent window (Website A) to close the iframe
+        window.parent.postMessage("close_iframe", "*");
+    }
+</script>
+
     <!-- Start Init Calibration Page -->
     <section id="init_calibration_page" class="page" style="display: none;">
         <div class="container">
