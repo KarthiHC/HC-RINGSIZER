@@ -2070,7 +2070,7 @@
                         <div class="ring-sizer-buttons-main">
                             <button class="theme-btn white-btn btn-go-to width-50" data-page="ring_size_calculator_page">BACK</button>
                             <button class="theme-btn btn-go-to black-btn width-50" data-page="share_calibration_page">
-                                <span style="margin-right: 10px;">SHARE</span>
+                                <span style="margin-right: 10px;">NEXT</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
                                     <path d="M5.31059 6.44352L6.40785 12.0213C6.45322 12.2524 6.56906 12.4638 6.73944 12.6264C6.90983 12.7889 7.12639 12.8948 7.35936 12.9293C7.59234 12.9638 7.83029 12.9254 8.0405 12.8192C8.25072 12.713 8.42289 12.5443 8.53334 12.3363L13.8651 2.29977C13.9603 2.12255 14.0066 1.92313 13.9991 1.72208C13.9916 1.52103 13.9306 1.32563 13.8223 1.15602M5.31059 6.44352L1.32434 2.58477C1.16099 2.4269 1.04852 2.22382 1.00138 2.00159C0.954237 1.77936 0.974563 1.54812 1.05975 1.33752C1.14494 1.12692 1.29111 0.94658 1.4795 0.819629C1.66789 0.692679 1.88992 0.624909 2.11709 0.625015H12.8578C13.0504 0.624019 13.2401 0.672283 13.4088 0.765221C13.5774 0.858159 13.7203 0.992684 13.8223 1.15602M5.31059 6.44352L13.8223 1.15602M13.8223 1.15602L13.8966 1.10952" stroke="white" stroke-width="1.125" />
                                 </svg>
@@ -2107,7 +2107,7 @@
                             <div class="ring-size-country-text ring-size-country-mm" country="mm">mm</div>
                         </div>
                         <p class="italic">Explore Hautecarat's Stunning Ring Collections</p>
-                        <div class="social-buttons">
+<!--                         <div class="social-buttons">
                             <a data-dialog="dialogOne" href="#" class="social-button social-button--facebook" aria-label="Facebook">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
@@ -2120,9 +2120,9 @@
                             <a data-dialog="dialogOne" href="#" class="social-button social-button--mail" aria-label="mail">
                                 <i class="fas fa-envelope"></i>
                             </a>
-                        </div>
+                        </div> -->
                         <div class="ring-sizer-buttons-main">
-                            <button class="theme-btn black-btn btn-go-to last-done-btn">VISIT WEBSITE</button>
+                            <button class="theme-btn black-btn btn-go-to last-done-btn btn-close" onclick="closeIframe();">VISIT WEBSITE</button>
                         </div>
                     </div>
                 </div>
@@ -2328,7 +2328,7 @@
 
                 function applyLinkCopy(link){
                     // console.log("link: ", link);
-                    link = `https://hautecarat.com/pages/size?country=usa&size=8.50`;
+                    link = `https://hautecarat.com/?country=usa&size=8.50`;
                     dialog_input.value = link;
                     // Add event listener to the copy button
                     // Add the event listener to the copy button
