@@ -63,6 +63,28 @@ function initialize() {
 
 initialize();
 
+document.addEventListener("DOMContentLoaded", () => {
+    // Select the element by its ID
+    let selectedWrapper = document.getElementById("wrapper_ring_sizer");
+
+    // Function to set the wrapper height dynamically based on the ratio
+    const setWrapperSize = () => {
+        let width = window.innerWidth <= 1100 ? window.innerWidth : 1100; // Max width is 1100px
+        let height = width / (1100 / 560); // Maintain 1100:560 ratio
+        selectedWrapper.style.width = `${width}px`;
+        selectedWrapper.style.height = `${height}px`;
+        selectedWrapper.style.margin = "0 auto"; // Center the wrapper horizontally
+    };
+
+    // Set the size initially
+    setWrapperSize();
+
+    // Update the size on window resize
+    window.addEventListener("resize", setWrapperSize);
+});
+
+
+
 var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
 var eventer = window[eventMethod];
 var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
