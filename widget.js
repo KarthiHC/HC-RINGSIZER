@@ -18,7 +18,7 @@ function initialize() {
 
     let wrapper = document.createElement("div");
     wrapper.id = "wrapper_ring_sizer";
-    wrapper.id = "container-fluid";
+    wrapper.class = "container-fluid";
     wrapper.style.overflow = "hidden";
     wrapper.style.position = "fixed";
     wrapper.style.left = "0%";
