@@ -6,7 +6,7 @@ function initialize() {
 
     let backdrop = document.createElement("div");
     backdrop.id = "backdrop_ring_sizer";
-    wrapper.className = "container-fluid";
+    backdrop.className = "container-fluid";
     backdrop.style.overflow = "hidden";
     backdrop.style.display = "none";
     backdrop.style.position = "fixed";
