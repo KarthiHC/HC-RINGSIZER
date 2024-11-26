@@ -18,6 +18,7 @@ function initialize() {
 
     let wrapper = document.createElement("div");
     wrapper.id = "wrapper_ring_sizer";
+    wrapper.id = "container-fluid";
     wrapper.style.overflow = "hidden";
     wrapper.style.position = "fixed";
     wrapper.style.left = "0%";
@@ -29,7 +30,7 @@ function initialize() {
     } else {
         wrapper.style.height = "560px";
     }
-    wrapper.style.maxWidth = "1100px";
+    // wrapper.style.maxWidth = "1100px";
     wrapper.style.margin = "auto";
     wrapper.style.borderRadius = "5px";
     wrapper.style.backgroundColor = "#ffffff";
