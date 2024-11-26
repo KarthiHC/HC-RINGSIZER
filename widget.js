@@ -27,7 +27,7 @@ function initialize() {
     if (window.innerWidth <= 768) {
         wrapper.style.height = "100%";
     } else {
-        wrapper.style.height = "560px";
+        wrapper.style.height = "660px";
     }
     // wrapper.style.maxWidth = "1100px";
     wrapper.style.margin = "auto";
