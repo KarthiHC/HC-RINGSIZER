@@ -12,6 +12,7 @@ function initialize() {
         laptopSizes: {
             size13: { width: 1280, height: 800 }, // Common 13" resolution
             size13Retina: { width: 2560, height: 1600 }, // Retina 13"
+            sizeLarger: { width: 1920, height: 1080 }, // Base size for larger screens
             current: null
         }
     };
@@ -33,10 +34,11 @@ function initialize() {
             
             return 'mobile';
         } else {
-            // Detect laptop screen size
+            // Detect screen size category
             const actualWidth = width * pixelRatio;
-            if (actualWidth >= 2560) deviceConfig.laptopSizes.current = 'size13Retina';
-            else deviceConfig.laptopSizes.current = 'size13';
+            if (actualWidth <= 1280) deviceConfig.laptopSizes.current = 'size13';
+            else if (actualWidth <= 2560) deviceConfig.laptopSizes.current = 'size13Retina';
+            else deviceConfig.laptopSizes.current = 'sizeLarger';
             
             return 'laptop';
         }
@@ -50,19 +52,38 @@ function initialize() {
         
         if (deviceType === 'mobile') {
             return {
-                width: screenWidth * 0.95, // 95% of screen width
-                height: screenHeight * 0.9, // 90% of screen height
-                borderRadius: '12px',
-                padding: '10px',
-                marginTop: '5%'
+                width: screenWidth,
+                height: screenHeight,
+                borderRadius: '0',
+                padding: '0',
+                marginTop: '0'
             };
         } else {
-            // Laptop optimizations
+            // Calculate dimensions for laptop/desktop screens
+            const baseAspectRatio = 660 / 1100; // Original aspect ratio
+            let targetWidth;
+            
+            if (deviceConfig.laptopSizes.current === 'sizeLarger') {
+                // For larger screens, use 90% of screen width
+                targetWidth = Math.min(screenWidth * 0.9, 1800); // Cap at 1800px
+            } else {
+                // For 13" screens, use more screen space
+                targetWidth = Math.min(1400, screenWidth * 0.9); // Increased from 1100 to 1400, and 85% to 90%
+            }
+            
+            // Calculate height maintaining aspect ratio while ensuring it fits the screen
+            const targetHeight = Math.min(targetWidth * baseAspectRatio, screenHeight * 0.9);
+            
+            // Adjust width if height is constrained to maintain aspect ratio
+            const finalWidth = targetHeight / baseAspectRatio < targetWidth ? 
+                             Math.round(targetHeight / baseAspectRatio) : 
+                             Math.round(targetWidth);
+            
             return {
-                width: Math.min(1100, screenWidth * 0.85), // Max 1100px or 85% of screen
-                height: Math.min(660, screenHeight * 0.85), // Max 660px or 85% of screen
+                width: finalWidth,
+                height: Math.round(targetHeight),
                 borderRadius: '16px',
-                padding: '20px',
+                padding: '0px',
                 marginTop: '0'
             };
         }
@@ -90,28 +111,8 @@ function initialize() {
     wrapper.style.overflow = "hidden";
     wrapper.style.position = "fixed";
     wrapper.style.backgroundColor = "#ffffff";
-    wrapper.style.boxShadow = "0 10px 25px rgba(0, 0, 0, 0.2)";
+    wrapper.style.boxShadow = deviceType === 'mobile' ? 'none' : "0 10px 25px rgba(0, 0, 0, 0.2)"; // Remove shadow on mobile
     
-    // Close button with improved mobile touch target
-    let closeButton = document.createElement("button");
-    closeButton.innerHTML = "×";
-    closeButton.style.position = "absolute";
-    closeButton.style.right = "10px";
-    closeButton.style.top = "10px";
-    closeButton.style.width = "44px"; // Larger touch target
-    closeButton.style.height = "44px";
-    closeButton.style.border = "none";
-    closeButton.style.background = "rgba(0, 0, 0, 0.1)";
-    closeButton.style.borderRadius = "50%";
-    closeButton.style.fontSize = "24px";
-    closeButton.style.cursor = "pointer";
-    closeButton.style.color = "#666";
-    closeButton.style.zIndex = "2";
-    closeButton.style.display = "flex";
-    closeButton.style.alignItems = "center";
-    closeButton.style.justifyContent = "center";
-    closeButton.onclick = window.close_iframe;
-
     let iframe = document.createElement("iframe");
     iframe.id = "ifrm_ring_sizer";
     iframe.name = "ifrm_ring_sizer";
@@ -133,30 +134,27 @@ function initialize() {
         wrapper.style.padding = dimensions.padding;
         
         if (deviceType === 'mobile') {
-            wrapper.style.left = '50%';
-            wrapper.style.top = dimensions.marginTop;
-            wrapper.style.transform = 'translateX(-50%)';
+            wrapper.style.left = '0';
+            wrapper.style.top = '0';
+            wrapper.style.transform = 'none';
+            wrapper.style.maxWidth = '100%';
+            wrapper.style.maxHeight = '100%';
             
-            // Add safe area insets for modern iPhones
-            wrapper.style.paddingTop = 'env(safe-area-inset-top)';
-            wrapper.style.paddingBottom = 'env(safe-area-inset-bottom)';
+            // Remove any safe area insets for true full screen
+            wrapper.style.paddingTop = '0';
+            wrapper.style.paddingBottom = '0';
             
             // Optimize touch interactions
             wrapper.style.WebkitOverflowScrolling = 'touch';
-            closeButton.style.width = '44px';
-            closeButton.style.height = '44px';
         } else {
             wrapper.style.left = '50%';
             wrapper.style.top = '50%';
             wrapper.style.transform = 'translate(-50%, -50%)';
-            closeButton.style.width = '36px';
-            closeButton.style.height = '36px';
         }
     }
 
     document.getElementById("ring-sizer")?.addEventListener("click", open_iframe, false);
     backdrop.appendChild(wrapper);
-    wrapper.appendChild(closeButton);
     wrapper.appendChild(iframe);
     document.body.appendChild(backdrop);
 
