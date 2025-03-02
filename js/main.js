@@ -85,6 +85,12 @@ $(document).ready(function(){
             $('#card_calibration_page .card-image-wrapper .lines').css('height', (parseFloat(newSize) + 4) + 'px');
             $spinner.hide();
         }, 150); // 150ms delay
+        let newSize = $(this).val();
+        $('#card_calibration_page .card-image-wrapper').css({
+            'background-size': 'auto ' + newSize + 'px',
+            'height': newSize + 'px'
+        });
+        $('#card_calibration_page .card-image-wrapper .lines').css('height', (parseFloat(newSize) + 4) + 'px');
     });
     $('#card_calibration_page #card_resize_decrease').on('mousedown', function(){
         reduce_card_size();
