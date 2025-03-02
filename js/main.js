@@ -70,7 +70,21 @@ $(document).ready(function(){
     //------------------------
 
     // Resize Card
+    let resizeTimeout;
     $('#card_calibration_page #card_resize_range').on('change mousemove touchmove', function(){
+        clearTimeout(resizeTimeout);
+        let $spinner = $('#card_calibration_page .resize-spinner');
+        $spinner.show();
+        
+        resizeTimeout = setTimeout(() => {
+            let newSize = $(this).val();
+            $('#card_calibration_page .card-image-wrapper').css({
+                'background-size': 'auto ' + newSize + 'px',
+                'height': newSize + 'px'
+            });
+            $('#card_calibration_page .card-image-wrapper .lines').css('height', (parseFloat(newSize) + 4) + 'px');
+            $spinner.hide();
+        }, 150); // 150ms delay
         let newSize = $(this).val();
         $('#card_calibration_page .card-image-wrapper').css({
             'background-size': 'auto ' + newSize + 'px',
