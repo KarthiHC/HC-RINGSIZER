@@ -71,19 +71,40 @@ $(document).ready(function(){
 
     // Resize Card
     let resizeTimeout;
-    $('#card_calibration_page #card_resize_range').on('change mousemove touchmove', function(){
+    const $cardWrapper = $('#card_calibration_page .card-image-wrapper');
+    const $spinner = $('#card_calibration_page .resize-spinner');
+    let isSliding = false;
+    
+    $('#card_calibration_page #card_resize_range')
+        .on('mousedown touchstart', function() {
+            isSliding = true;
+            $spinner.show();
+        })
+        .on('mouseup touchend', function() {
+            isSliding = false;
+            let newSize = $(this).val();
+            updateCardSize(newSize);
+        })
+        .on('input', function() {
+            if (!isSliding) {
+                let newSize = $(this).val();
+                updateCardSize(newSize);
+            }
+        });
+
+    function updateCardSize(newSize) {
         clearTimeout(resizeTimeout);
-        let $spinner = $('#card_calibration_page .resize-spinner');
         $spinner.show();
         
         resizeTimeout = setTimeout(() => {
-            let newSize = $(this).val();
-            $('#card_calibration_page .card-image-wrapper').css({
+            $cardWrapper.css({
                 'background-size': 'auto ' + newSize + 'px',
                 'height': newSize + 'px'
             });
-            $('#card_calibration_page .card-image-wrapper .lines').css('height', (parseFloat(newSize) + 4) + 'px');
+            $cardWrapper.find('.lines').css('height', newSize + 'px');
             $spinner.hide();
+        }, 150);
+    }
         }, 150); // 150ms delay
         let newSize = $(this).val();
         $('#card_calibration_page .card-image-wrapper').css({
