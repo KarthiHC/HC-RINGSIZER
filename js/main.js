@@ -85,7 +85,7 @@ $(document).ready(function(){
             let newSize = $(this).val();
             updateCardSize(newSize);
         })
-        .on('input', function() {
+        .on('input change', function() {
             if (!isSliding) {
                 let newSize = $(this).val();
                 updateCardSize(newSize);
