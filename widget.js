@@ -59,28 +59,12 @@ function initialize() {
                 marginTop: '0'
             };
         } else {
-            // Calculate dimensions for laptop/desktop screens
-            const baseAspectRatio = 660 / 1100; // Original aspect ratio
-            let targetWidth;
-            
-            if (deviceConfig.laptopSizes.current === 'sizeLarger') {
-                // For larger screens, use 90% of screen width
-                targetWidth = Math.min(screenWidth * 0.9, 1800); // Cap at 1800px
-            } else {
-                // For 13" screens, use more screen space
-                targetWidth = Math.min(1400, screenWidth * 0.9); // Increased from 1100 to 1400, and 85% to 90%
-            }
-            
-            // Calculate height maintaining aspect ratio while ensuring it fits the screen
-            const targetHeight = Math.min(targetWidth * baseAspectRatio, screenHeight * 0.9);
-            
-            // Adjust width if height is constrained to maintain aspect ratio
-            const finalWidth = targetHeight / baseAspectRatio < targetWidth ? 
-                             Math.round(targetHeight / baseAspectRatio) : 
-                             Math.round(targetWidth);
+            // For all desktop screens, use percentage-based sizing
+            const targetWidth = Math.min(screenWidth * 0.9, 1800); // 90% of screen width, max 1800px
+            const targetHeight = Math.min(screenHeight * 0.9, targetWidth * 0.6); // 90% of height or maintain ratio
             
             return {
-                width: finalWidth,
+                width: Math.round(targetWidth),
                 height: Math.round(targetHeight),
                 borderRadius: '16px',
                 padding: '0px',
@@ -111,7 +95,6 @@ function initialize() {
     wrapper.style.overflow = "hidden";
     wrapper.style.position = "fixed";
     wrapper.style.backgroundColor = "#ffffff";
-    wrapper.style.boxShadow = deviceType === 'mobile' ? 'none' : "0 10px 25px rgba(0, 0, 0, 0.2)"; // Remove shadow on mobile
     
     let iframe = document.createElement("iframe");
     iframe.id = "ifrm_ring_sizer";
@@ -132,6 +115,7 @@ function initialize() {
         wrapper.style.height = dimensions.height + 'px';
         wrapper.style.borderRadius = dimensions.borderRadius;
         wrapper.style.padding = dimensions.padding;
+        wrapper.style.boxShadow = deviceType === 'mobile' ? 'none' : "0 10px 25px rgba(0, 0, 0, 0.2)";
         
         if (deviceType === 'mobile') {
             wrapper.style.left = '0';
@@ -139,12 +123,8 @@ function initialize() {
             wrapper.style.transform = 'none';
             wrapper.style.maxWidth = '100%';
             wrapper.style.maxHeight = '100%';
-            
-            // Remove any safe area insets for true full screen
             wrapper.style.paddingTop = '0';
             wrapper.style.paddingBottom = '0';
-            
-            // Optimize touch interactions
             wrapper.style.WebkitOverflowScrolling = 'touch';
         } else {
             wrapper.style.left = '50%';
