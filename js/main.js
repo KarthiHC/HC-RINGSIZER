@@ -13,7 +13,39 @@ $(document).ready(function(){
 
     // Initialize App
     showPage('init_calibration_page');
+    initializeResponsiveLayout();
     //---------------
+
+    // Initialize responsive layout
+    function initializeResponsiveLayout() {
+        const updateRingSizerSize = () => {
+            const containerWidth = $('#ring_size_calculator_page .ring-sizer-container').width();
+            const aspectRatio = 1; // Ring sizer should be circular
+            const maxWidth = containerWidth * 0.9;
+            const maxHeight = window.innerHeight * 0.6;
+            const maxSize = Math.min(maxWidth, maxHeight);
+            
+            // Update range input max value based on screen size
+            const rangeInput = $('#ring_size_calculator_page #ring_resize_range');
+            const currentVal = rangeInput.val();
+            rangeInput.attr('max', maxSize);
+            
+            // Maintain current ring size ratio if possible
+            if (currentVal && currentVal <= maxSize) {
+                rangeInput.val(currentVal).change();
+            }
+            
+            // Update ring sizer container styles
+            $('#ring_size_calculator_page .ring-sizer-container').css({
+                'max-width': maxSize + 'px',
+                'margin': '0 auto'
+            });
+        };
+
+        // Call on init and window resize
+        updateRingSizerSize();
+        $(window).on('resize', updateRingSizerSize);
+    }
 
     // Select app type
     $('#init_landing_page .app-link[data-page]').on('click', function() {
@@ -38,9 +70,21 @@ $(document).ready(function(){
     //------------------------
 
     // Resize Card
+    let resizeTimeout;
     $('#card_calibration_page #card_resize_range').on('change mousemove touchmove', function(){
-        $('#card_calibration_page .card-image-wrapper').css('background-size', 'auto '+$(this).val()+'px');
-        $('#card_calibration_page .card-image-wrapper .lines').css('height', (parseFloat($(this).val())+4)+'px');
+        clearTimeout(resizeTimeout);
+        let $spinner = $('#card_calibration_page .resize-spinner');
+        $spinner.show();
+        
+        resizeTimeout = setTimeout(() => {
+            let newSize = $(this).val();
+            $('#card_calibration_page .card-image-wrapper').css({
+                'background-size': 'auto ' + newSize + 'px',
+                'height': newSize + 'px'
+            });
+            $('#card_calibration_page .card-image-wrapper .lines').css('height', (parseFloat(newSize) + 4) + 'px');
+            $spinner.hide();
+        }, 150); // 150ms delay
     });
     $('#card_calibration_page #card_resize_decrease').on('mousedown', function(){
         reduce_card_size();
@@ -158,7 +202,7 @@ $(document).ready(function(){
         $('#ring_size_calculator_page .ring-sizer').css({'height': ringSizePX+'px', 'width': ringSizePX+'px'});
         $('#ring_size_calculator_page .for-line').css({'width': ringSizePX+'px'});
         showRingSize(ringSizeMM);
-    })
+    });
     $('#ring_size_calculator_page #ring_resize_decrease').on('mousedown', function(){
         reduce_ring_size();
         timeout = setTimeout(function(){
@@ -239,20 +283,11 @@ $(document).ready(function(){
 
     // Show Page
     function showPage(pageName) {
-        //let pixelToMMRatio = undefined;
-
         if(pageName == 'country_change_page') {
             previousPage = $('section.page:visible').attr('id');
         }
 
-        /*if(pageName == 'card_calibration_page') {
-            setTimeout(function(){
-                $('#'+pageName+' .video-guide').fadeIn();
-            }, 1000);
-        }*/
-
         if(pageName == 'ring_size_calculator_page') {
-            //pixelToMMRatio = $.cookie('pixelToMMRatio');
             if(pixelToMMRatio == undefined) {
                 pageName = 'init_calibration_page';
             }
@@ -269,7 +304,15 @@ $(document).ready(function(){
         if(pageName == 'ring_size_calculator_page') {
             minRingSizeMM = getMinRingDiameterMM();
             maxRingSizeMM = getMaxRingDiameterMM();
-            $('#ring_size_calculator_page #ring_resize_range').attr('min', (minRingSizeMM*pixelToMMRatio).toFixed(1)).attr('max', Math.ceil((maxRingSizeMM*pixelToMMRatio))+1).val(((minRingSizeMM*pixelToMMRatio)+(maxRingSizeMM*pixelToMMRatio))/2).change();
+            
+            // Calculate initial size more accurately
+            let initialSize = ((minRingSizeMM + maxRingSizeMM) / 2) * pixelToMMRatio;
+            
+            $('#ring_size_calculator_page #ring_resize_range')
+                .attr('min', (minRingSizeMM * pixelToMMRatio).toFixed(1))
+                .attr('max', Math.ceil(maxRingSizeMM * pixelToMMRatio))
+                .val(initialSize)
+                .change();
         }
     }
     //----------
