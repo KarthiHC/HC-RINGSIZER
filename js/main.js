@@ -106,68 +106,98 @@ $(document).ready(function(){
         }, 150);
     }
     
-    $('#card_calibration_page #card_resize_decrease').on('mousedown', function(){
+    $('#card_calibration_page #card_resize_decrease').on('mousedown touchstart', function(e){
+        e.preventDefault(); // Prevent default behavior for touch events
+        $spinner.show();
         reduce_card_size();
         timeout = setTimeout(function(){
             interval = setInterval(function(){
                 reduce_card_size();
-            }, 15);
-        }, 500);
+            }, 100); // Faster interval for smoother experience
+        }, 300); // Shorter initial delay
     });
-    $('#card_calibration_page #card_resize_increase').on('mousedown', function(){
+    
+    $('#card_calibration_page #card_resize_increase').on('mousedown touchstart', function(e){
+        e.preventDefault(); // Prevent default behavior for touch events
+        $spinner.show();
         increase_card_size();
         timeout = setTimeout(function(){
             interval = setInterval(function(){
                 increase_card_size();
-            }, 15);
-        }, 500);
+            }, 100); // Faster interval for smoother experience
+        }, 300); // Shorter initial delay
     });
-    $('#card_calibration_page #card_resize_decrease, #card_calibration_page #card_resize_increase').on('mouseup mouseout', function(){
+    
+    $('#card_calibration_page #card_resize_decrease, #card_calibration_page #card_resize_increase').on('mouseup mouseleave touchend touchcancel', function(){
         clearTimeout(timeout);
         clearInterval(interval);
+        // Hide spinner after a short delay to ensure resize is complete
+        setTimeout(function() {
+            $spinner.hide();
+        }, 150);
     });
+    
     function reduce_card_size() {
-        let card_resize_range_value = $('#card_calibration_page #card_resize_range').val()
-        $('#card_calibration_page #card_resize_range').val(parseFloat(card_resize_range_value)-parseFloat(0.5)).change();
+        let card_resize_range_value = $('#card_calibration_page #card_resize_range').val();
+        let newValue = Math.max(parseFloat(card_resize_range_value) - parseFloat(0.5), $('#card_calibration_page #card_resize_range').attr('min'));
+        $('#card_calibration_page #card_resize_range').val(newValue).change();
     }
+    
     function increase_card_size() {
-        let card_resize_range_value = $('#card_calibration_page #card_resize_range').val()
-        $('#card_calibration_page #card_resize_range').val(parseFloat(card_resize_range_value)+parseFloat(0.5)).change();
+        let card_resize_range_value = $('#card_calibration_page #card_resize_range').val();
+        let newValue = Math.min(parseFloat(card_resize_range_value) + parseFloat(0.5), $('#card_calibration_page #card_resize_range').attr('max'));
+        $('#card_calibration_page #card_resize_range').val(newValue).change();
     }
     //------------
 
     // Resize Ruler
+    const $rulerSpinner = $('#scale_calibration_page .resize-spinner');
+    
     $('#scale_calibration_page #scale_resize_range').on('change mousemove touchmove', function(){
         $('#scale_calibration_page .mm-scale-image-wrapper').css('background-size', $(this).val()+'px auto');
         $('#scale_calibration_page .inch-scale-image-wrapper').css('background-size', $(this).val()+'px auto');
     });
-    $('#scale_calibration_page #scale_resize_decrease').on('mousedown', function(){
+    
+    $('#scale_calibration_page #scale_resize_decrease').on('mousedown touchstart', function(e){
+        e.preventDefault();
+        $rulerSpinner.show();
         reduce_ruler_size();
         timeout = setTimeout(function(){
             interval = setInterval(function(){
                 reduce_ruler_size();
-            }, 15);
-        }, 500);
+            }, 100);
+        }, 300);
     });
-    $('#scale_calibration_page #scale_resize_increase').on('mousedown', function(){
+    
+    $('#scale_calibration_page #scale_resize_increase').on('mousedown touchstart', function(e){
+        e.preventDefault();
+        $rulerSpinner.show();
         increase_ruler_size();
         timeout = setTimeout(function(){
             interval = setInterval(function(){
                 increase_ruler_size();
-            }, 15);
-        }, 500);
+            }, 100);
+        }, 300);
     });
-    $('#scale_calibration_page #scale_resize_decrease, #scale_calibration_page #scale_resize_increase').on('mouseup mouseout', function(){
+    
+    $('#scale_calibration_page #scale_resize_decrease, #scale_calibration_page #scale_resize_increase').on('mouseup mouseleave touchend touchcancel', function(){
         clearTimeout(timeout);
         clearInterval(interval);
+        setTimeout(function() {
+            $rulerSpinner.hide();
+        }, 150);
     });
+    
     function reduce_ruler_size() {
-        let scale_resize_range_value = $('#scale_calibration_page #scale_resize_range').val()
-        $('#scale_calibration_page #scale_resize_range').val(parseFloat(scale_resize_range_value)-parseFloat(2)).change();
+        let scale_resize_range_value = $('#scale_calibration_page #scale_resize_range').val();
+        let newValue = Math.max(parseFloat(scale_resize_range_value) - parseFloat(2), $('#scale_calibration_page #scale_resize_range').attr('min'));
+        $('#scale_calibration_page #scale_resize_range').val(newValue).change();
     }
+    
     function increase_ruler_size() {
-        let scale_resize_range_value = $('#scale_calibration_page #scale_resize_range').val()
-        $('#scale_calibration_page #scale_resize_range').val(parseFloat(scale_resize_range_value)+parseFloat(2)).change();
+        let scale_resize_range_value = $('#scale_calibration_page #scale_resize_range').val();
+        let newValue = Math.min(parseFloat(scale_resize_range_value) + parseFloat(2), $('#scale_calibration_page #scale_resize_range').attr('max'));
+        $('#scale_calibration_page #scale_resize_range').val(newValue).change();
     }
     //-------------
 
@@ -213,6 +243,9 @@ $(document).ready(function(){
     });
     //----------------------------
 
+    // Resize Ring
+    const $ringSizeSpinner = $('#ring_size_calculator_page .resize-spinner');
+    
     // Resize ring canvas
     $('#ring_size_calculator_page #ring_resize_range').on('change mousemove touchmove', function(){
         let ringSizePX = $(this).val();
@@ -223,35 +256,49 @@ $(document).ready(function(){
         $('#ring_size_calculator_page .for-line').css({'width': ringSizePX+'px'});
         showRingSize(ringSizeMM);
     });
-    $('#ring_size_calculator_page #ring_resize_decrease').on('mousedown', function(){
+    
+    $('#ring_size_calculator_page #ring_resize_decrease').on('mousedown touchstart', function(e){
+        e.preventDefault();
+        $ringSizeSpinner.show();
         reduce_ring_size();
         timeout = setTimeout(function(){
             interval = setInterval(function(){
                 reduce_ring_size();
             }, 100);
-        }, 500);
+        }, 300);
     });
-    $('#ring_size_calculator_page #ring_resize_increase').on('mousedown', function(){
+    
+    $('#ring_size_calculator_page #ring_resize_increase').on('mousedown touchstart', function(e){
+        e.preventDefault();
+        $ringSizeSpinner.show();
         increase_ring_size();
         timeout = setTimeout(function(){
             interval = setInterval(function(){
                 increase_ring_size();
             }, 100);
-        }, 500);
+        }, 300);
     });
-    $('#ring_size_calculator_page #ring_resize_decrease, #ring_size_calculator_page #ring_resize_increase').on('mouseup mouseout', function(){
+    
+    $('#ring_size_calculator_page #ring_resize_decrease, #ring_size_calculator_page #ring_resize_increase').on('mouseup mouseleave touchend touchcancel', function(){
         clearTimeout(timeout);
         clearInterval(interval);
+        setTimeout(function() {
+            $ringSizeSpinner.hide();
+        }, 150);
     });
+    
     function reduce_ring_size() {
         let ring_resize_range_value = $('#ring_size_calculator_page #ring_resize_range').val();
         let step = $('#ring_size_calculator_page #ring_resize_range').attr('step');
-        $('#ring_size_calculator_page #ring_resize_range').val(parseFloat(ring_resize_range_value)-parseFloat(step)).change();
+        let newValue = Math.max(parseFloat(ring_resize_range_value) - parseFloat(step), $('#ring_size_calculator_page #ring_resize_range').attr('min'));
+        $('#ring_size_calculator_page #ring_resize_range').val(newValue).change();
     }
+    
     function increase_ring_size() {
         let ring_resize_range_value = $('#ring_size_calculator_page #ring_resize_range').val();
         let step = $('#ring_size_calculator_page #ring_resize_range').attr('step');
-        $('#ring_size_calculator_page #ring_resize_range').val(parseFloat(ring_resize_range_value)+parseFloat(step)).change();
+        let newValue = Math.min(parseFloat(ring_resize_range_value) + parseFloat(step), $('#ring_size_calculator_page #ring_resize_range').attr('max'));
+        $('#ring_size_calculator_page #ring_resize_range').val(newValue).change();
     }
     //-------------------
 
